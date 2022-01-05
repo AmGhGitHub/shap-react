@@ -1,24 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Container from "react-bootstrap/Container";
+
+import Logo from "./components/Logo";
+import VarSpecs from "./components/VarSpecs2";
+import VarDistSpecs from "./components/VarDistParams";
+import RunSpecs from "./components/Runs";
 
 function App() {
+  const [arr, setArr] = useState([0]);
+  const [dist, setDist] = useState({});
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container>
+      <Logo />
+      <RunSpecs setArr={setArr} />
+      <VarSpecs arr={arr} setDist={setDist} />
+      <VarDistSpecs dist={dist} />
+    </Container>
   );
 }
 
