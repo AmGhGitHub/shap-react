@@ -7,12 +7,6 @@ import Table from "react-bootstrap/Table";
 
 const VarDistParams = ({ dist }) => {
   console.log(dist);
-  //   console.log("dist: ", dist);
-  //   const val = Array.from(dist);
-  //   console.log("val: ", val);
-  const val = Object.entries(dist);
-  //   console.log("val: ", val);
-
   return (
     <Row className="my-3">
       <Col>
@@ -26,7 +20,7 @@ const VarDistParams = ({ dist }) => {
               </tr>
             </thead>
             <tbody>
-              {val.map((d, i) => {
+              {dist.map((d, i) => {
                 if (d === "normal") {
                   return (
                     <tr key={i}>
@@ -93,7 +87,7 @@ const VarDistParams = ({ dist }) => {
                 }
                 return (
                   <tr key={i}>
-                    <td className="align-middle">X{i + 1}</td>
+                    <td className="align-middle">X{i}</td>
                     <td>
                       <div className="input-group my-1">
                         <span className="input-group-text" id="basic-addon1">

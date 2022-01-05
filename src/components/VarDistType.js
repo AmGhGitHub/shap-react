@@ -1,19 +1,50 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Table from "react-bootstrap/Table";
 import Form from "react-bootstrap/Form";
-const VarTable = ({ arr, setDist }) => {
-  // console.log(filled);
-  const [params, setParams] = useState([
-    {
-      id: 0,
-      distribution: "",
-      null_pct: 0,
-      repeated: 0,
+
+const getInitial = (n) => {
+  const data = new Array(n).fill(0);
+  return data.map((val, i) => {
+    return { id: i, distribution: "", null_pct: 0 };
+  });
+};
+
+const VarTable = ({ nvar, setDist, setShow }) => {
+  let data_init = getInitial(nvar);
+  const [params, setParams] = useState(data_init);
+  const [repeatedpct, setRepeatedpct] = useState(0);
+
+  const getNewData = (nvar) => {
+    const newParmas = params.map((item, index) => {
+      if (nvar <= params.length) {
+        return item;
+      } else {
+        return { id: index, distribution: "", null_pct: 0 };
+      }
+    });
+    setParams(newParmas);
+  };
+
+  const [myArray, dispatch] = useReducer(
+    (myArray, { type, value }) => {
+      switch (type) {
+        case "add":
+          return [...myArray, value];
+        case "remove":
+          return myArray.filter((_, index) => index !== value);
+        default:
+          return myArray;
+      }
     },
-  ]);
+    [1, 2, 3]
+  );
+
+  // useEffect(() => {
+  //   getNewData(nvar);
+  // }, []);
 
   const handleChangeDistribution = (index, e) => {
     const name = e.target.name;
@@ -31,14 +62,16 @@ const VarTable = ({ arr, setDist }) => {
     let newArr = [...params];
     newArr[index] = obj;
     setParams(newArr);
-    console.log(params);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // setParams({ ...varDistParams });
-    setDist([...params]);
-    // setShow(true);
+    setDist(params.map(({ distribution }) => distribution));
+    setShow(true);
+  };
+
+  const handleChangeRepeatedRows = (e) => {
+    setRepeatedpct(e.target.value);
   };
 
   return (
@@ -51,12 +84,12 @@ const VarTable = ({ arr, setDist }) => {
               <tr>
                 <th>Variable</th>
                 <th>Distribution</th>
-                <th>% Nullified</th>
-                <th>% Repeated</th>
+                <th>% Null</th>
+                {/* <th>% Repeated</th> */}
               </tr>
             </thead>
             <tbody>
-              {arr.map((x, i) => (
+              {params.map((x, i) => (
                 <tr key={i}>
                   <td>X{i}</td>
                   <td>
@@ -80,20 +113,7 @@ const VarTable = ({ arr, setDist }) => {
                       step="1"
                       id={`X${i}_null_pct`}
                       name={`X${i}_null_pct`}
-                      value={params[0]["null_pct"]}
-                      onChange={(e) => handleChangeDistribution(i, e)}
-                    />
-                  </td>
-                  <td>
-                    <Form.Control
-                      size="sm"
-                      type="number"
-                      min="0"
-                      max="20"
-                      step="1"
-                      id={`X${i}_repeated_pct`}
-                      name={`X${i}_repeated_pct`}
-                      value={params[0]["repeated"]}
+                      value={params[i]["null_pct"]}
                       onChange={(e) => handleChangeDistribution(i, e)}
                     />
                   </td>
@@ -101,8 +121,24 @@ const VarTable = ({ arr, setDist }) => {
               ))}
             </tbody>
           </Table>
+
+          <Row>
+            <Col sm={10}>
+              <h5>% Repeated Rows</h5>
+              <Form.Range
+                min="0"
+                max="20"
+                value={repeatedpct}
+                onChange={handleChangeRepeatedRows}
+              />
+            </Col>
+            <Col sm={2}>
+              <h5>Value</h5>
+              <p>{repeatedpct}</p>
+            </Col>
+          </Row>
           <Button
-            className="float-end"
+            className="float-end my-2"
             variant="outline-dark"
             size="lg"
             type="submit"
