@@ -9,6 +9,13 @@ import { BiMinusCircle, BiPlusCircle } from "react-icons/bi";
 import numberFormatter from "../util/formatNumber";
 
 const MAX_NUMBER_OF_VARIABLES = 10;
+const DEFAULT_PARAMETERS = {
+  distribution: "normal",
+  null_pct: 5,
+  param0: 0,
+  param1: 1,
+  param2: 0,
+};
 
 const fetchData = async (formData) => {
   const response = await axios({
@@ -17,7 +24,11 @@ const fetchData = async (formData) => {
     data: formData,
     headers: { "Content-Type": "multipart/form-data" },
   });
-  return response.data.result;
+  const vars_hist_data = response.data["hist_binSize_binCenters"];
+  // for (let i = 0; i < vars_hist_data.length; i++) {
+  //   console.log(vars_hist_data[i]["bin_size"]);
+  // }
+  return response.data["sample_size"];
 };
 
 const ModelSpecs = () => {
@@ -27,11 +38,7 @@ const ModelSpecs = () => {
   const [varData, setVarData] = useState([
     {
       id: 0,
-      distribution: "normal",
-      null_pct: 0,
-      param0: 0,
-      param1: 0,
-      param2: 0,
+      ...DEFAULT_PARAMETERS,
     },
   ]);
 
@@ -61,11 +68,7 @@ const ModelSpecs = () => {
         ...prv,
         {
           id: prv[prv.length - 1].id + 1,
-          distribution: "normal",
-          null_pct: 0,
-          param0: 0,
-          param1: 0,
-          param2: 0,
+          ...DEFAULT_PARAMETERS,
         },
       ]);
     }
