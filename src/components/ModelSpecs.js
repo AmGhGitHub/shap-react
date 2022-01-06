@@ -1,17 +1,30 @@
-import React, { useState } from "react";
-import Row from "react-bootstrap/Row";
+import axios from "axios";
+import { useState } from "react";
 import Col from "react-bootstrap/Col";
+import Button from "react-bootstrap/esm/Button";
 import Form from "react-bootstrap/Form";
+import Row from "react-bootstrap/Row";
 import Table from "react-bootstrap/Table";
-
 import { BiMinusCircle, BiPlusCircle } from "react-icons/bi";
-
 import numberFormatter from "../util/formatNumber";
 
+const MAX_NUMBER_OF_VARIABLES = 10;
+
+const fetchData = async (formData) => {
+  const response = await axios({
+    method: "post",
+    url: "http://localhost:8000/api/generate/",
+    data: formData,
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  return response.data.result;
+};
+
 const ModelSpecs = () => {
+  const [results, setResults] = useState(0);
   const [sampleSize, setSampleSize] = useState(2);
   const [repeatedRowsPct, setRepeatedRowsPct] = useState(0);
-  const [varType, setVarType] = useState([
+  const [varData, setVarData] = useState([
     {
       id: 0,
       distribution: "normal",
@@ -22,20 +35,29 @@ const ModelSpecs = () => {
     },
   ]);
 
+  const handleRun = (e) => {
+    e.preventDefault();
+    let form_data = new FormData();
+    form_data.append("variables_data", JSON.stringify(varData));
+    form_data.append("sample_size_exponent", sampleSize);
+    form_data.append("repeated_rows_pct", repeatedRowsPct);
+    fetchData(form_data).then((val) => setResults(val));
+  };
+
   const handleChangeSampleSize = (e) => {
     setSampleSize(parseInt(e.target.value));
   };
 
   const handleDeleteVariable = () => {
-    if (varType.length > 1) {
-      const newArr = varType.filter((_, i) => i !== varType.length - 1);
-      setVarType(newArr);
+    if (varData.length > 1) {
+      const newArr = varData.filter((_, i) => i !== varData.length - 1);
+      setVarData(newArr);
     }
   };
 
   const handleAddVarible = () => {
-    if (varType.length < 11) {
-      setVarType((prv) => [
+    if (varData.length < MAX_NUMBER_OF_VARIABLES) {
+      setVarData((prv) => [
         ...prv,
         {
           id: prv[prv.length - 1].id + 1,
@@ -53,24 +75,24 @@ const ModelSpecs = () => {
     const name = e.target.name;
     let obj = null;
     if (name.includes("dist")) {
-      obj = { ...varType[index], distribution: e.target.value }; // copying the old datas array
+      obj = { ...varData[index], distribution: e.target.value }; // copying the old datas array
     }
     if (name.includes("null")) {
-      obj = { ...varType[index], null_pct: e.target.value }; // copying the old datas array
+      obj = { ...varData[index], null_pct: e.target.value }; // copying the old datas array
     }
     if (name.includes("param0")) {
-      obj = { ...varType[index], param0: e.target.value }; // copying the old datas array
+      obj = { ...varData[index], param0: e.target.value }; // copying the old datas array
     }
     if (name.includes("param1")) {
-      obj = { ...varType[index], param1: e.target.value }; // copying the old datas array
+      obj = { ...varData[index], param1: e.target.value }; // copying the old datas array
     }
     if (name.includes("param2")) {
-      obj = { ...varType[index], param2: e.target.value }; // copying the old datas array
+      obj = { ...varData[index], param2: e.target.value }; // copying the old datas array
     }
 
-    let newArr = [...varType];
+    let newArr = [...varData];
     newArr[index] = obj;
-    setVarType(newArr);
+    setVarData(newArr);
   };
 
   return (
@@ -124,12 +146,12 @@ const ModelSpecs = () => {
                   </div>
                 </th>
                 <th>Distribution</th>
-                <th>% Null</th>
+                <th>%Null</th>
                 <th colSpan={3}>Distribution Properties</th>
               </tr>
             </thead>
             <tbody>
-              {varType.map((x) => {
+              {varData.map((x) => {
                 const { id } = x;
                 return (
                   <tr key={id}>
@@ -154,7 +176,7 @@ const ModelSpecs = () => {
                         step="1"
                         id={`X${id}_null_pct`}
                         name={`X${id}_null_pct`}
-                        value={varType[id]["null_pct"]}
+                        value={varData[id]["null_pct"]}
                         onChange={(e) => handleChangeDistribution(id, e)}
                       />
                     </td>
@@ -166,7 +188,7 @@ const ModelSpecs = () => {
                             type="number"
                             id={`X${id}_param0`}
                             name={`X${id}_param0`}
-                            value={varType[id]["param0"]}
+                            value={varData[id]["param0"]}
                             onChange={(e) => handleChangeDistribution(id, e)}
                             placeholder="&mu;"
                           />
@@ -178,7 +200,7 @@ const ModelSpecs = () => {
                             min="0"
                             id={`X${id}_param1`}
                             name={`X${id}_param1`}
-                            value={varType[id]["param1"]}
+                            value={varData[id]["param1"]}
                             onChange={(e) => handleChangeDistribution(id, e)}
                             placeholder="&sigma;"
                           />
@@ -197,7 +219,7 @@ const ModelSpecs = () => {
                             type="number"
                             id={`X${id}_param0`}
                             name={`X${id}_param0`}
-                            value={varType[id]["param1"]}
+                            value={varData[id]["param0"]}
                             onChange={(e) => handleChangeDistribution(id, e)}
                             placeholder="min"
                           />
@@ -208,7 +230,7 @@ const ModelSpecs = () => {
                             type="number"
                             id={`X${id}_param1`}
                             name={`X${id}_param1`}
-                            value={varType[id]["param1"]}
+                            value={varData[id]["param1"]}
                             onChange={(e) => handleChangeDistribution(id, e)}
                             placeholder="mode"
                           />
@@ -219,7 +241,7 @@ const ModelSpecs = () => {
                             type="number"
                             id={`X${id}_param2`}
                             name={`X${id}_param2`}
-                            value={varType[id]["param2"]}
+                            value={varData[id]["param2"]}
                             onChange={(e) => handleChangeDistribution(id, e)}
                             placeholder="max"
                           />
@@ -234,7 +256,7 @@ const ModelSpecs = () => {
                             type="number"
                             id={`X${id}_param0`}
                             name={`X${id}_param0`}
-                            value={varType[id]["param1"]}
+                            value={varData[id]["param0"]}
                             onChange={(e) => handleChangeDistribution(id, e)}
                             placeholder="min"
                           />
@@ -246,7 +268,7 @@ const ModelSpecs = () => {
                             min="0"
                             id={`X${id}_param1`}
                             name={`X${id}_param1`}
-                            value={varType[id]["param1"]}
+                            value={varData[id]["param1"]}
                             onChange={(e) => handleChangeDistribution(id, e)}
                             placeholder="max"
                           />
@@ -261,8 +283,13 @@ const ModelSpecs = () => {
               })}
             </tbody>
           </Table>
+          <Button type="submit" className="float-end" onClick={handleRun}>
+            Run
+          </Button>
         </Col>
-        <Col></Col>
+        <Col>
+          <h1>{results}</h1>
+        </Col>
       </Row>
     </Form>
   );
