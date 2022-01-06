@@ -10,6 +10,7 @@ import numberFormatter from "../util/formatNumber";
 
 const ModelSpecs = () => {
   const [sampleSize, setSampleSize] = useState(2);
+  const [repeatedRowsPct, setRepeatedRowsPct] = useState(0);
   const [varType, setVarType] = useState([
     {
       id: 0,
@@ -36,7 +37,14 @@ const ModelSpecs = () => {
     if (varType.length < 11) {
       setVarType((prv) => [
         ...prv,
-        { id: prv[prv.length - 1].id + 1, distribution: "normal", null_pct: 0 },
+        {
+          id: prv[prv.length - 1].id + 1,
+          distribution: "normal",
+          null_pct: 0,
+          param0: 0,
+          param1: 0,
+          param2: 0,
+        },
       ]);
     }
   };
@@ -50,6 +58,15 @@ const ModelSpecs = () => {
     if (name.includes("null")) {
       obj = { ...varType[index], null_pct: e.target.value }; // copying the old datas array
     }
+    if (name.includes("param0")) {
+      obj = { ...varType[index], param0: e.target.value }; // copying the old datas array
+    }
+    if (name.includes("param1")) {
+      obj = { ...varType[index], param1: e.target.value }; // copying the old datas array
+    }
+    if (name.includes("param2")) {
+      obj = { ...varType[index], param2: e.target.value }; // copying the old datas array
+    }
 
     let newArr = [...varType];
     newArr[index] = obj;
@@ -62,7 +79,7 @@ const ModelSpecs = () => {
         <Col>
           <h2 className="my-3 text-danger">Model Specs</h2>
           <Row>
-            <Col sm={10}>
+            <Col sm={4}>
               <h5>Sample Size</h5>
               <Form.Range
                 min="1"
@@ -72,15 +89,23 @@ const ModelSpecs = () => {
               />
             </Col>
             <Col sm={2}>
-              <h5>Value</h5>
+              <h5>Number</h5>
               <p>{numberFormatter(Math.pow(10, parseInt(sampleSize)))}</p>
             </Col>
+            <Col sm={4}>
+              <h5>Repeated Rows</h5>
+              <Form.Range
+                min="0"
+                max="20"
+                value={repeatedRowsPct}
+                onChange={(e) => setRepeatedRowsPct(e.target.value)}
+              />
+            </Col>
+            <Col sm={2}>
+              <h5>%</h5>
+              <p>{repeatedRowsPct}</p>
+            </Col>
           </Row>
-        </Col>
-
-        {/* varible types */}
-
-        <Col>
           <h2 className="my-3 text-danger">Variable Specs</h2>
           <Table responsive bordered size="sm">
             <thead>
@@ -101,163 +126,143 @@ const ModelSpecs = () => {
                 <th>Distribution</th>
                 <th>% Null</th>
                 <th colSpan={3}>Distribution Properties</th>
-                {/* <th colSpan={2}></th> */}
               </tr>
             </thead>
             <tbody>
-              {varType.map((x) => (
-                <tr key={x.id}>
-                  <td>X{x.id}</td>
-                  <td>
-                    <Form.Select
-                      name={`X${x.id}_distribution`}
-                      size="sm"
-                      onChange={(e) => handleChangeDistribution(x.id, e)}
-                    >
-                      <option value="normal">Normal</option>
-                      <option value="uniform">Uniform</option>
-                      <option value="triangular">Triangular</option>
-                    </Form.Select>
-                  </td>
-                  <td>
-                    <Form.Control
-                      size="sm"
-                      type="number"
-                      min="0"
-                      max="20"
-                      step="1"
-                      id={`X${x.id}_null_pct`}
-                      name={`X${x.id}_null_pct`}
-                      value={varType[x.id]["null_pct"]}
-                      onChange={(e) => handleChangeDistribution(x.id, e)}
-                    />
-                  </td>
-                  {x.distribution === "normal" && (
-                    <>
-                      <td>
-                        <Form.Control
-                          size="sm"
-                          type="number"
-                          id={`X${x.id}_param0`}
-                          name={`X${x.id}_param0`}
-                          value={varType[x.id]["param0"]}
-                          onChange={(e) => handleChangeDistribution(x.id, e)}
-                          placeholder="&mu;"
-                        />
-                      </td>
-                      <td>
-                        <Form.Control
-                          size="sm"
-                          type="number"
-                          min="0"
-                          id={`X${x.id}_param1`}
-                          name={`X${x.id}_param1`}
-                          value={varType[x.id]["param1"]}
-                          onChange={(e) => handleChangeDistribution(x.id, e)}
-                          placeholder="&sigma;"
-                        />
-                      </td>
-                      <td>
-                        <Form.Control size="sm" type="number" disabled />
-                      </td>
-                    </>
-                  )}
-
-                  {x.distribution === "triangular" && (
-                    <>
-                      <td>
-                        <Form.Control
-                          size="sm"
-                          type="number"
-                          id={`X${x.id}_param0`}
-                          name={`X${x.id}_param0`}
-                          value={varType[x.id]["param1"]}
-                          onChange={(e) => handleChangeDistribution(x.id, e)}
-                          placeholder="min"
-                        />
-                      </td>
-                      <td>
-                        <Form.Control
-                          size="sm"
-                          type="number"
-                          id={`X${x.id}_param1`}
-                          name={`X${x.id}_param1`}
-                          value={varType[x.id]["param1"]}
-                          onChange={(e) => handleChangeDistribution(x.id, e)}
-                          placeholder="mode"
-                        />
-                      </td>
-                      <td>
-                        <Form.Control
-                          size="sm"
-                          type="number"
-                          id={`X${x.id}_param2`}
-                          name={`X${x.id}_param2`}
-                          value={varType[x.id]["param2"]}
-                          onChange={(e) => handleChangeDistribution(x.id, e)}
-                          placeholder="max"
-                        />
-                      </td>
-                    </>
-                  )}
-                  {x.distribution === "uniform" && (
-                    <>
-                      <td>
-                        <Form.Control
-                          size="sm"
-                          type="number"
-                          id={`X${x.id}_param0`}
-                          name={`X${x.id}_param0`}
-                          value={varType[x.id]["param1"]}
-                          onChange={(e) => handleChangeDistribution(x.id, e)}
-                          placeholder="min"
-                        />
-                      </td>
-                      <td>
-                        <Form.Control
-                          size="sm"
-                          type="number"
-                          min="0"
-                          id={`X${x.id}_param1`}
-                          name={`X${x.id}_param1`}
-                          value={varType[x.id]["param1"]}
-                          onChange={(e) => handleChangeDistribution(x.id, e)}
-                          placeholder="max"
-                        />
-                      </td>
-                      <td>
-                        <Form.Control size="sm" type="number" disabled />
-                      </td>
-                    </>
-                  )}
-
-                  {/* <td className="text-center">
-                    <BsPlusSquare onClick={handleAddVarible} />
-                  </td>
-
-                  <td className="text-center">
-                    {x.id === 0 ? (
-                      <BsTrash />
-                    ) : (
-                      <BsTrash onClick={handleDeleteVariable} />
+              {varType.map((x) => {
+                const { id } = x;
+                return (
+                  <tr key={id}>
+                    <td>X{id}</td>
+                    <td>
+                      <Form.Select
+                        name={`X${id}_distribution`}
+                        size="sm"
+                        onChange={(e) => handleChangeDistribution(id, e)}
+                      >
+                        <option value="normal">Normal</option>
+                        <option value="uniform">Uniform</option>
+                        <option value="triangular">Triangular</option>
+                      </Form.Select>
+                    </td>
+                    <td>
+                      <Form.Control
+                        size="sm"
+                        type="number"
+                        min="0"
+                        max="20"
+                        step="1"
+                        id={`X${id}_null_pct`}
+                        name={`X${id}_null_pct`}
+                        value={varType[id]["null_pct"]}
+                        onChange={(e) => handleChangeDistribution(id, e)}
+                      />
+                    </td>
+                    {x.distribution === "normal" && (
+                      <>
+                        <td>
+                          <Form.Control
+                            size="sm"
+                            type="number"
+                            id={`X${id}_param0`}
+                            name={`X${id}_param0`}
+                            value={varType[id]["param0"]}
+                            onChange={(e) => handleChangeDistribution(id, e)}
+                            placeholder="&mu;"
+                          />
+                        </td>
+                        <td>
+                          <Form.Control
+                            size="sm"
+                            type="number"
+                            min="0"
+                            id={`X${id}_param1`}
+                            name={`X${id}_param1`}
+                            value={varType[id]["param1"]}
+                            onChange={(e) => handleChangeDistribution(id, e)}
+                            placeholder="&sigma;"
+                          />
+                        </td>
+                        <td>
+                          <Form.Control size="sm" type="number" disabled />
+                        </td>
+                      </>
                     )}
-                  </td> */}
-                </tr>
-              ))}
+
+                    {x.distribution === "triangular" && (
+                      <>
+                        <td>
+                          <Form.Control
+                            size="sm"
+                            type="number"
+                            id={`X${id}_param0`}
+                            name={`X${id}_param0`}
+                            value={varType[id]["param1"]}
+                            onChange={(e) => handleChangeDistribution(id, e)}
+                            placeholder="min"
+                          />
+                        </td>
+                        <td>
+                          <Form.Control
+                            size="sm"
+                            type="number"
+                            id={`X${id}_param1`}
+                            name={`X${id}_param1`}
+                            value={varType[id]["param1"]}
+                            onChange={(e) => handleChangeDistribution(id, e)}
+                            placeholder="mode"
+                          />
+                        </td>
+                        <td>
+                          <Form.Control
+                            size="sm"
+                            type="number"
+                            id={`X${id}_param2`}
+                            name={`X${id}_param2`}
+                            value={varType[id]["param2"]}
+                            onChange={(e) => handleChangeDistribution(id, e)}
+                            placeholder="max"
+                          />
+                        </td>
+                      </>
+                    )}
+                    {x.distribution === "uniform" && (
+                      <>
+                        <td>
+                          <Form.Control
+                            size="sm"
+                            type="number"
+                            id={`X${id}_param0`}
+                            name={`X${id}_param0`}
+                            value={varType[id]["param1"]}
+                            onChange={(e) => handleChangeDistribution(id, e)}
+                            placeholder="min"
+                          />
+                        </td>
+                        <td>
+                          <Form.Control
+                            size="sm"
+                            type="number"
+                            min="0"
+                            id={`X${id}_param1`}
+                            name={`X${id}_param1`}
+                            value={varType[id]["param1"]}
+                            onChange={(e) => handleChangeDistribution(id, e)}
+                            placeholder="max"
+                          />
+                        </td>
+                        <td>
+                          <Form.Control size="sm" type="number" disabled />
+                        </td>
+                      </>
+                    )}
+                  </tr>
+                );
+              })}
             </tbody>
           </Table>
         </Col>
-        <Col>
-          {/* <h2 className="my-3 text-danger">Distribution Specs</h2>
-        <Table responsive bordered size="sm">
-          <thead>
-            <tr>
-              <th>Variable</th>
-              <th colSpan={3}>Distribution Parameters</th>
-            </tr>
-          </thead>
-        </Table> */}
-        </Col>
+        <Col></Col>
       </Row>
     </Form>
   );
