@@ -8,6 +8,8 @@ import Table from "react-bootstrap/Table";
 import { BiMinusCircle, BiPlusCircle } from "react-icons/bi";
 import numberFormatter from "../util/formatNumber";
 
+import VarsHistogram from "./VarsHistogram";
+
 const MAX_NUMBER_OF_VARIABLES = 10;
 const DEFAULT_PARAMETERS = {
   distribution: "normal",
@@ -24,15 +26,12 @@ const fetchData = async (formData) => {
     data: formData,
     headers: { "Content-Type": "multipart/form-data" },
   });
-  const vars_hist_data = response.data["hist_binSize_binCenters"];
-  // for (let i = 0; i < vars_hist_data.length; i++) {
-  //   console.log(vars_hist_data[i]["bin_size"]);
-  // }
-  return response.data["sample_size"];
+  return response.data["hist_binSize_binCenters"];
 };
 
 const ModelSpecs = () => {
-  const [results, setResults] = useState(0);
+  const [showResults, setShowResults] = useState(false);
+  const [histData, setHistData] = useState([{ bin_size: [], bin_centers: [] }]);
   const [sampleSize, setSampleSize] = useState(2);
   const [repeatedRowsPct, setRepeatedRowsPct] = useState(0);
   const [varData, setVarData] = useState([
@@ -48,7 +47,8 @@ const ModelSpecs = () => {
     form_data.append("variables_data", JSON.stringify(varData));
     form_data.append("sample_size_exponent", sampleSize);
     form_data.append("repeated_rows_pct", repeatedRowsPct);
-    fetchData(form_data).then((val) => setResults(val));
+    fetchData(form_data).then((hist_data) => setHistData(hist_data));
+    setShowResults(true);
   };
 
   const handleChangeSampleSize = (e) => {
@@ -290,9 +290,7 @@ const ModelSpecs = () => {
             Run
           </Button>
         </Col>
-        <Col>
-          <h1>{results}</h1>
-        </Col>
+        <Col>{showResults && <VarsHistogram hist_data={histData} />}</Col>
       </Row>
     </Form>
   );
