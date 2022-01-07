@@ -16,6 +16,23 @@ const VarsHistogram = ({ hist_data }) => {
   useEffect(() => {
     const chart = chartRef.current;
     chart.setOption({
+      title: [
+        {
+          left: "center",
+          text: `X${chartNumber}`,
+        },
+      ],
+      toolbox: {
+        show: true,
+        feature: {
+          saveAsImage: {},
+          dataView: {},
+          dataZoom: {
+            yAxisIndex: "none",
+          },
+          restore: {},
+        },
+      },
       xAxis: {
         type: "category",
         data: hist_data[chartNumber]["bin_centers"],

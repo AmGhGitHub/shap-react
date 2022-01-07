@@ -4,7 +4,7 @@ import ModelSpecs from "./components/ModelSpecs";
 
 function App() {
   return (
-    <Container>
+    <Container fluid>
       <Logo />
       <ModelSpecs />
     </Container>

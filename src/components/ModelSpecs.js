@@ -11,6 +11,7 @@ import numberFormatter from "../util/formatNumber";
 import VarsHistogram from "./VarsHistogram";
 
 const MAX_NUMBER_OF_VARIABLES = 10;
+const URL = "http://localhost:8000/api/";
 const DEFAULT_PARAMETERS = {
   distribution: "normal",
   null_pct: 5,
@@ -22,11 +23,11 @@ const DEFAULT_PARAMETERS = {
 const fetchData = async (formData) => {
   const response = await axios({
     method: "post",
-    url: "http://localhost:8000/api/generate/",
+    url: URL + "generate/",
     data: formData,
     headers: { "Content-Type": "multipart/form-data" },
   });
-  return response.data["hist_binSize_binCenters"];
+  return response.data.results;
 };
 
 const ModelSpecs = () => {
@@ -34,6 +35,7 @@ const ModelSpecs = () => {
   const [histData, setHistData] = useState([{ bin_size: [], bin_centers: [] }]);
   const [sampleSize, setSampleSize] = useState(2);
   const [repeatedRowsPct, setRepeatedRowsPct] = useState(0);
+  const [chart, setChart] = useState();
   const [varData, setVarData] = useState([
     {
       id: 0,
@@ -47,7 +49,11 @@ const ModelSpecs = () => {
     form_data.append("variables_data", JSON.stringify(varData));
     form_data.append("sample_size_exponent", sampleSize);
     form_data.append("repeated_rows_pct", repeatedRowsPct);
-    fetchData(form_data).then((hist_data) => setHistData(hist_data));
+    fetchData(form_data).then((res) => {
+      setHistData(res["hist_binSize_binCenters"]);
+      setChart(res["plot"]);
+    });
+
     setShowResults(true);
   };
 
@@ -296,6 +302,11 @@ const ModelSpecs = () => {
           <Button type="submit" className="float-end" onClick={handleRun}>
             Run
           </Button>
+          <img
+            src={`data:image/jpeg;base64,${chart}`}
+            alt=""
+            className="my-3"
+          />
         </Col>
         <Col>{showResults && <VarsHistogram hist_data={histData} />}</Col>
       </Row>
