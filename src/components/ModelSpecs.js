@@ -81,16 +81,16 @@ const ModelSpecs = () => {
       obj = { ...varData[index], distribution: e.target.value }; // copying the old datas array
     }
     if (name.includes("null")) {
-      obj = { ...varData[index], null_pct: e.target.value }; // copying the old datas array
+      obj = { ...varData[index], null_pct: parseFloat(e.target.value) }; // copying the old datas array
     }
     if (name.includes("param0")) {
-      obj = { ...varData[index], param0: e.target.value }; // copying the old datas array
+      obj = { ...varData[index], param0: parseFloat(e.target.value) }; // copying the old datas array
     }
     if (name.includes("param1")) {
-      obj = { ...varData[index], param1: e.target.value }; // copying the old datas array
+      obj = { ...varData[index], param1: parseFloat(e.target.value) }; // copying the old datas array
     }
     if (name.includes("param2")) {
-      obj = { ...varData[index], param2: e.target.value }; // copying the old datas array
+      obj = { ...varData[index], param2: parseFloat(e.target.value) }; // copying the old datas array
     }
 
     let newArr = [...varData];
@@ -176,7 +176,7 @@ const ModelSpecs = () => {
                         type="number"
                         min="0"
                         max="20"
-                        step="1"
+                        step="0.1"
                         id={`X${id}_null_pct`}
                         name={`X${id}_null_pct`}
                         value={varData[id]["null_pct"]}
@@ -189,6 +189,7 @@ const ModelSpecs = () => {
                           <Form.Control
                             size="sm"
                             type="number"
+                            step=".01"
                             id={`X${id}_param0`}
                             name={`X${id}_param0`}
                             value={varData[id]["param0"]}
@@ -201,6 +202,7 @@ const ModelSpecs = () => {
                             size="sm"
                             type="number"
                             min="0"
+                            step=".01"
                             id={`X${id}_param1`}
                             name={`X${id}_param1`}
                             value={varData[id]["param1"]}
@@ -220,6 +222,7 @@ const ModelSpecs = () => {
                           <Form.Control
                             size="sm"
                             type="number"
+                            step=".01"
                             id={`X${id}_param0`}
                             name={`X${id}_param0`}
                             value={varData[id]["param0"]}
@@ -231,6 +234,7 @@ const ModelSpecs = () => {
                           <Form.Control
                             size="sm"
                             type="number"
+                            step=".01"
                             id={`X${id}_param1`}
                             name={`X${id}_param1`}
                             value={varData[id]["param1"]}
@@ -242,6 +246,7 @@ const ModelSpecs = () => {
                           <Form.Control
                             size="sm"
                             type="number"
+                            step=".01"
                             id={`X${id}_param2`}
                             name={`X${id}_param2`}
                             value={varData[id]["param2"]}
@@ -257,6 +262,7 @@ const ModelSpecs = () => {
                           <Form.Control
                             size="sm"
                             type="number"
+                            step=".01"
                             id={`X${id}_param0`}
                             name={`X${id}_param0`}
                             value={varData[id]["param0"]}
@@ -269,6 +275,7 @@ const ModelSpecs = () => {
                             size="sm"
                             type="number"
                             min="0"
+                            step=".01"
                             id={`X${id}_param1`}
                             name={`X${id}_param1`}
                             value={varData[id]["param1"]}
