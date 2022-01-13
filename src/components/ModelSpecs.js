@@ -362,7 +362,7 @@ const ModelSpecs = () => {
                             </InputGroup>
                           </td>
                           <td>
-                            <InputGroup>
+                            <InputGroup size="sm">
                               <InputGroup.Text id={`X${id}_max`}>
                                 max
                               </InputGroup.Text>
