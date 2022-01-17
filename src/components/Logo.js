@@ -1,14 +1,11 @@
-import Image from "react-bootstrap/Image";
+// import Image from "react-bootstrap/Image";
 const image_src = require("../images/shap.png");
 
 const Logo = () => {
   return (
-    <Image
-      src={image_src}
-      alt="logo"
-      height="150px"
-      className="rounded mx-auto d-block my-3"
-    />
+    <section className="d-flex flex-row justify-content-center mt-4">
+      <img src={image_src} alt="shap logo" height="250px" />
+    </section>
   );
 };
 

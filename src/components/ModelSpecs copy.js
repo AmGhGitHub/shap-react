@@ -136,6 +136,14 @@ const ModelSpecs = () => {
   //   setVarData(newArr);
   // };
 
+  const handleAddVarible = () => {
+    dispatch(addVariable());
+  };
+
+  const handleDeleteVariable = () => {
+    dispatch(removeVariable());
+  };
+
   return (
     <>
       <Row>
@@ -175,24 +183,34 @@ const ModelSpecs = () => {
               </Col>
             </Row>
             <h2 className="my-3 text-danger">Variable Specs</h2>
-            <h4 className="text-warning">
-              <i
-                className="bi bi-plus-square"
-                onClick={() => dispatch(addVariable())}
-              ></i>
-            </h4>
-            <h4 className="text-danger">
-              <i
-                className="bi bi-dash-square"
-                onClick={() => dispatch(removeVariable())}
-              ></i>
-            </h4>
             <Table responsive bordered size="sm">
               <thead>
                 <tr>
-                  <th>Variable</th>
-                  <th>Distribution</th>
-                  <th>%Null</th>
+                  <th>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span>Variable </span>
+                      {/* <span className="mx-2">
+                        <BiPlusCircle onClick={handleAddVarible} />
+                      </span> */}
+                      <span className="mx-2">
+                        <BiPlusCircle onClick={handleAddVarible} />
+                      </span>
+                      {/* <span>
+                        <BiMinusCircle onClick={handleDeleteVariable} />
+                      </span> */}
+                      <span>
+                        <BiMinusCircle onClick={handleDeleteVariable} />
+                      </span>
+                    </div>
+                  </th>
+                  <th style={{ width: "15%" }}>Distribution</th>
+                  <th style={{ width: "10%" }}>%Null</th>
+                  <th colSpan={3}>Distribution Properties</th>
                 </tr>
               </thead>
               <tbody className="align-middle">
@@ -227,6 +245,166 @@ const ModelSpecs = () => {
                           // onChange={(e) => handleChangeDistribution(id, e)}
                         />
                       </td>
+                      {x.distribution === "normal" && (
+                        <>
+                          <td>
+                            <InputGroup size="sm">
+                              <InputGroup.Text
+                                id={`X${id}_mu`}
+                                className="px-3"
+                              >
+                                &mu;
+                              </InputGroup.Text>
+                              <Form.Control
+                                size="sm"
+                                type="number"
+                                step=".01"
+                                id={`X${id}_param0`}
+                                name={`X${id}_param0`}
+                                value={var_dists[id]["param0"]}
+                                // onChange={(e) =>
+                                //   handleChangeDistribution(id, e)
+                                // }
+                                placeholder="&mu;"
+                              />
+                            </InputGroup>
+                          </td>
+                          <td>
+                            <InputGroup size="sm">
+                              <InputGroup.Text
+                                id={`X${id}_sigma`}
+                                className="px-3"
+                              >
+                                &sigma;
+                              </InputGroup.Text>
+                              <Form.Control
+                                size="sm"
+                                type="number"
+                                min="0"
+                                step=".01"
+                                id={`X${id}_param1`}
+                                name={`X${id}_param1`}
+                                value={var_dists[id]["param1"]}
+                                // onChange={(e) =>
+                                //   handleChangeDistribution(id, e)
+                                // }
+                              />
+                            </InputGroup>
+                          </td>
+                          <td>
+                            <Form.Control size="sm" type="number" disabled />
+                          </td>
+                        </>
+                      )}
+
+                      {x.distribution === "triangular" && (
+                        <>
+                          <td>
+                            <InputGroup size="sm">
+                              <InputGroup.Text id={`X${id}_min`}>
+                                min
+                              </InputGroup.Text>
+                              <Form.Control
+                                size="sm"
+                                type="number"
+                                step=".01"
+                                id={`X${id}_param0`}
+                                name={`X${id}_param0`}
+                                value={var_dists[id]["param0"]}
+                                // onChange={(e) =>
+                                //   handleChangeDistribution(id, e)
+                                // }
+                                placeholder="min"
+                              />
+                            </InputGroup>
+                          </td>
+                          <td>
+                            <InputGroup size="sm">
+                              <InputGroup.Text id={`X${id}_mode`}>
+                                mode
+                              </InputGroup.Text>
+                              <Form.Control
+                                size="sm"
+                                type="number"
+                                step=".01"
+                                id={`X${id}_param1`}
+                                name={`X${id}_param1`}
+                                value={var_dists[id]["param1"]}
+                                // onChange={(e) =>
+                                //   handleChangeDistribution(id, e)
+                                // }
+                                placeholder="mode"
+                              />
+                            </InputGroup>
+                          </td>
+                          <td>
+                            <InputGroup size="sm">
+                              <InputGroup.Text id={`X${id}_max`}>
+                                max
+                              </InputGroup.Text>
+                              <Form.Control
+                                size="sm"
+                                type="number"
+                                step=".01"
+                                id={`X${id}_param2`}
+                                name={`X${id}_param2`}
+                                value={var_dists[id]["param2"]}
+                                // onChange={(e) =>
+                                //   handleChangeDistribution(id, e)
+                                // }
+                                placeholder="max"
+                              />
+                            </InputGroup>
+                          </td>
+                        </>
+                      )}
+                      {x.distribution === "uniform" && (
+                        <>
+                          <td>
+                            <InputGroup size="sm">
+                              <InputGroup.Text id={`X${id}_min`}>
+                                min
+                              </InputGroup.Text>
+                              <Form.Control
+                                size="sm"
+                                type="number"
+                                step=".01"
+                                id={`X${id}_param0`}
+                                name={`X${id}_param0`}
+                                value={var_dists[id]["param0"]}
+                                // onChange={(e) =>
+                                //   handleChangeDistribution(id, e)
+                                // }
+                                placeholder="min"
+                              />
+                            </InputGroup>
+                          </td>
+                          <td>
+                            <InputGroup size="sm">
+                              <InputGroup.Text id={`X${id}_max`}>
+                                max
+                              </InputGroup.Text>
+
+                              <Form.Control
+                                size="sm"
+                                type="number"
+                                min="0"
+                                step=".01"
+                                id={`X${id}_param1`}
+                                name={`X${id}_param1`}
+                                value={var_dists[id]["param1"]}
+                                // onChange={(e) =>
+                                //   handleChangeDistribution(id, e)
+                                // }
+                                placeholder="max"
+                              />
+                            </InputGroup>
+                          </td>
+                          <td>
+                            <Form.Control size="sm" type="number" disabled />
+                          </td>
+                        </>
+                      )}
                     </tr>
                   );
                 })}
