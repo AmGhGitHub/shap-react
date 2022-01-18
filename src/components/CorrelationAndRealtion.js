@@ -8,10 +8,6 @@ const Equation = () => {
   const { latex_equation } = useSelector((state) => state.varRelationReducer);
   const dispatch = useDispatch();
 
-  // const [inputValue, setInputValue] = useState(
-  //   "a+\\frac{c}{\\sqrt[3]{d+b}}-\\frac{2}{3}e^4-\\frac{af}{\\pi}"
-  // );
-
   return (
     <section className="mt-4">
       <div className="container border">

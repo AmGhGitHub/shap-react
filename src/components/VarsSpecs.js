@@ -5,7 +5,7 @@ import VarDistParameters from "./VarDistParameters";
 const VarsSpecs = () => {
   return (
     <section>
-      <div className="container border mt-3">
+      <div className="container border mt-4">
         <h2>Variables Specs</h2>
         <VarQuantity />
         <div className="row mt-3">
