@@ -1,5 +1,5 @@
 // import Image from "react-bootstrap/Image";
-const image_src = require("../images/shap.png");
+const image_src = require("../images/shap_logo.png");
 
 const Logo = () => {
   return (

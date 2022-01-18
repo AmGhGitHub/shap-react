@@ -3,15 +3,21 @@ import { createSlice } from "@reduxjs/toolkit";
 const resultsSlice = createSlice({
   name: "res",
   initialState: {
-    variablesHistogramData: [{ bin_size: [], bin_centers: [] }],
+    inputsHistogramData: [{ bin_size: [], bin_centers: [] }],
+    outputHistogramData: [{ bin_size: [], bin_centers: [] }],
   },
   reducers: {
-    updateVariablesHistogramData: (state, action) => {
+    updateInputsHistogramData: (state, action) => {
       const { payload } = action;
-      state.variablesHistogramData = payload;
+      state.inputsHistogramData = payload;
+    },
+    updateOutputHistogramData: (state, action) => {
+      const { payload } = action;
+      state.outputHistogramData = payload;
     },
   },
 });
 
-export const { updateVariablesHistogramData } = resultsSlice.actions;
+export const { updateInputsHistogramData, updateOutputHistogramData } =
+  resultsSlice.actions;
 export default resultsSlice.reducer;

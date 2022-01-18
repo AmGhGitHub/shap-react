@@ -1,6 +1,5 @@
-import { useState } from "react";
+// based on https://www.npmjs.com/package/react-hook-mathjax
 import Tex2SVG from "react-hook-mathjax";
-import Button from "react-bootstrap/Button";
 
 import { useSelector, useDispatch } from "react-redux";
 import { changeEquation } from "../store/relationship-slice";

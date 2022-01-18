@@ -7,10 +7,11 @@ import ButtonToolbar from "react-bootstrap/ButtonToolbar";
 import { useSelector } from "react-redux";
 import { get_letter } from "../util/jsUtilityFunctions";
 
-const VarsHistogram = () => {
+const OutputHistogram = () => {
   const [chartRef, ref] = useEcharts();
   const [chartNumber, setChartNumber] = useState(0);
-  const { variablesHistogramData: hist_data } = useSelector(
+
+  const { outputHistogramData: hist_data } = useSelector(
     (state) => state.varResultsReducer
   );
 
@@ -24,7 +25,7 @@ const VarsHistogram = () => {
       title: [
         {
           left: "center",
-          text: `${get_letter(chartNumber)}`,
+          text: `Output`,
         },
       ],
       toolbox: {
@@ -55,21 +56,12 @@ const VarsHistogram = () => {
   }, [chartRef, hist_data, chartNumber]);
 
   return (
-    <div>
-      <ButtonToolbar aria-label="Toolbar with button groups">
-        <ButtonGroup className="me-2" aria-label="First group">
-          {hist_data.map((_, i) => {
-            return (
-              <Button key={i} onClick={(e) => handleClick(i, e)}>
-                {get_letter(i)}
-              </Button>
-            );
-          })}
-        </ButtonGroup>
-      </ButtonToolbar>
-      <div ref={ref} className="chart" style={{ height: 350 }}></div>
-    </div>
+    <div
+      ref={ref}
+      className="chart"
+      style={{ height: 400, marginTop: "2.2rem" }}
+    ></div>
   );
 };
 
-export default VarsHistogram;
+export default OutputHistogram;

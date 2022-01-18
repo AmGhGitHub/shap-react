@@ -1,8 +1,10 @@
-import { useState, useEffect } from "react";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
 import { useSelector, useDispatch } from "react-redux";
-import { updateVariablesHistogramData } from "../store/results-slice";
+import {
+  updateInputsHistogramData,
+  updateOutputHistogramData,
+} from "../store/results-slice";
 
 const URL = "http://localhost:8000/api/";
 const fetchData = async (formData) => {
@@ -22,10 +24,6 @@ const RunComponent = () => {
 
   const { latex_equation } = useSelector((state) => state.varRelationReducer);
 
-  const { variablesHistogramData } = useSelector(
-    (state) => state.varResultsReducer
-  );
-
   const dispatch = useDispatch();
 
   const handleRun = (e) => {
@@ -35,6 +33,7 @@ const RunComponent = () => {
     form_data.append("sample_size_exponent", sample_size_exponent);
     form_data.append("repeated_rows_pct", repeated_rows_pct);
     form_data.append("latex_equation", latex_equation);
+
     // form_data.append("use_python_plots", usePythonPlots);
 
     // for (let pair of form_data.entries()) {
@@ -42,7 +41,10 @@ const RunComponent = () => {
     // }
 
     fetchData(form_data).then((res) => {
-      dispatch(updateVariablesHistogramData(res["hist_binSize_binCenters"]));
+      dispatch(updateInputsHistogramData(res["hist_input_binSize_binCenters"]));
+      dispatch(
+        updateOutputHistogramData(res["hist_output_binSize_binCenters"])
+      );
       //   setHistData(res["hist_binSize_binCenters"]);
       //   setShowResults(true);
       //   setLoadingData(false);
