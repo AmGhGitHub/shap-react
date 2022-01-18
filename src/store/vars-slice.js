@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { get_letter } from "../util/jsUtilityFunctions";
 
 const MAX_NUMBER_OF_VARIABLES = 5;
-const letter_ascii = 97; // ascii letter for a
-
-const get_letter = (id) => String.fromCharCode(id + letter_ascii);
+// const letter_ascii = 97; // ascii letter for a
+// const get_letter = (id) => String.fromCharCode(id + letter_ascii);
 
 const DEFAULT_NORMAL_PARAMETERS = {
   distribution: "normal",

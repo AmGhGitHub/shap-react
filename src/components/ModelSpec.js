@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { changeSampleSize, changeRepeatedRows } from "../store/vars-slice";
-import numberFormatter from "../util/formatNumber";
+import { numberFormatter } from "../util/jsUtilityFunctions";
 
 const ModelSpec = () => {
   const dispatch = useDispatch();

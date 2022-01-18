@@ -4,10 +4,15 @@ import echarts from "echarts";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import ButtonToolbar from "react-bootstrap/ButtonToolbar";
+import { useSelector } from "react-redux";
+import { get_letter } from "../util/jsUtilityFunctions";
 
-const VarsHistogram = ({ hist_data }) => {
+const VarsHistogram = () => {
   const [chartRef, ref] = useEcharts();
   const [chartNumber, setChartNumber] = useState(0);
+  const { variablesHistogramData: hist_data } = useSelector(
+    (state) => state.varResultsReducer
+  );
 
   const handleClick = (i, e) => {
     setChartNumber(i);
@@ -19,7 +24,7 @@ const VarsHistogram = ({ hist_data }) => {
       title: [
         {
           left: "center",
-          text: `X${chartNumber}`,
+          text: `${get_letter(chartNumber)}`,
         },
       ],
       toolbox: {
@@ -50,13 +55,13 @@ const VarsHistogram = ({ hist_data }) => {
   }, [chartRef, hist_data, chartNumber]);
 
   return (
-    <div className="dflex justify-content-center">
+    <div>
       <ButtonToolbar aria-label="Toolbar with button groups">
         <ButtonGroup className="me-2" aria-label="First group">
           {hist_data.map((_, i) => {
             return (
               <Button key={i} onClick={(e) => handleClick(i, e)}>
-                {i}
+                {get_letter(i)}
               </Button>
             );
           })}

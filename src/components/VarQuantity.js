@@ -5,7 +5,7 @@ const VarQuantity = () => {
   const { var_dists } = useSelector((state) => state.varDataReducer);
   const dispatch = useDispatch();
   return (
-    <div class="d-flex align-items-center justify-content-between">
+    <div className="d-flex align-items-center justify-content-between">
       <h5 className="text-primary">
         Number of variables:
         <span className="text-dark"> {var_dists.length}</span>{" "}
