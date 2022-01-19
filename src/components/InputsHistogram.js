@@ -26,6 +26,11 @@ const VarsHistogram = () => {
         {
           left: "center",
           text: `${get_letter(chartNumber)}`,
+          textStyle: {
+            fontSize: 32,
+            fontStyle: "oblique",
+            fontWeight: "normal",
+          },
         },
       ],
       toolbox: {
@@ -50,6 +55,7 @@ const VarsHistogram = () => {
         {
           data: hist_data[chartNumber]["bin_size"],
           type: "bar",
+          color: "#0275d8",
         },
       ],
     });

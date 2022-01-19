@@ -13,7 +13,7 @@ const ChartResults = () => {
             <InputsHistogram />
           </div>
           <div className="col-md-6 text-start">
-            <h4 className="text-danger">Output Dist.</h4>
+            <h4 className="text-primary">Output Dist.</h4>
             <OutputHistogram />
           </div>
         </div>

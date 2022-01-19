@@ -26,7 +26,7 @@ const ModelSpec = () => {
               <div className="col-sm-10">
                 <input
                   type="range"
-                  min="1"
+                  min="2"
                   max="5"
                   className="w-100"
                   value={sample_size_exponent}
