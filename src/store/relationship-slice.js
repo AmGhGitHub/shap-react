@@ -4,7 +4,8 @@ const varRelationshipSlice = createSlice({
   name: "var_relationship",
   initialState: {
     latex_equation:
-      "u+\\frac{v}{\\sqrt[3]{w+x}}-\\frac{2}{3}y^4-\\frac{z}{x\\pi}",
+      // "u+\\frac{v}{\\sqrt[3]{w+x}}-\\frac{2}{3}y^4-\\frac{z}{x\\pi}",
+      "u^2+uv"
   },
   reducers: {
     changeEquation: (state, action) => {
