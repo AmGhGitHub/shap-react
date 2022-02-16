@@ -27,7 +27,7 @@ const ModelSpec = () => {
                 <input
                   type="range"
                   min="2"
-                  max="5"
+                  max="6"
                   className="w-100"
                   value={sample_size_exponent}
                   onChange={handleChangeSampleSize}

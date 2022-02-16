@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useEffect, useState, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -7,59 +8,90 @@ import {
 } from "../store/results-slice";
 
 const URL = "http://localhost:8000/api/";
-const fetchData = async (formData) => {
+
+const submitData = async (formData) => {
   const response = await axios({
     method: "post",
     url: URL + "generate/",
     data: formData,
     headers: { "Content-Type": "multipart/form-data" },
   });
-  return response.data.results;
+  return response.data.celery_task_id;
 };
 
 const RunComponent = () => {
+  const [celeryTaskId, setCeleryTaskId] = useState();
   const { var_dists, sample_size_exponent, repeated_rows_pct } = useSelector(
-    (state) => state.varDataReducer
-  );
+    (state) => state.varDataReducer);
 
   const { latex_equation } = useSelector((state) => state.varRelationReducer);
 
   const dispatch = useDispatch();
+  const firstUpdate = useRef(true);
+  const [showSpinner, setShowSpinner] = useState(false)
 
-  const handleRun = (e) => {
+  useEffect(() => {
+    // to prevent the initial render
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      return;
+    }
+
+    const interval = setInterval(
+      async () => {
+        const response = await axios({
+          method: "get",
+          url: URL + "generate/",
+          params: { task_id: celeryTaskId }
+        });
+        const res = response.data;
+
+        if (res.status == 'SUCCESS') {
+          dispatch(updateInputsHistogramData(res["hist_input_binSize_binCenters"]));
+          dispatch(
+            updateOutputHistogramData(res["hist_output_binSize_binCenters"])
+          );
+          clearInterval(interval);
+          setShowSpinner(false);
+        };
+      }, 500);
+
+    return () => clearInterval(interval);
+
+  }, [celeryTaskId])
+
+  const handleSubmit = (e) => {
     e.preventDefault();
+    setShowSpinner(true)
     let form_data = new FormData();
     form_data.append("variables_data", JSON.stringify(var_dists));
     form_data.append("sample_size_exponent", sample_size_exponent);
     form_data.append("repeated_rows_pct", repeated_rows_pct);
     form_data.append("latex_equation", latex_equation);
 
-    // form_data.append("use_python_plots", usePythonPlots);
-
-    // for (let pair of form_data.entries()) {
-    //   console.log(pair[0] + ", " + pair[1]);
-    // }
-
-    fetchData(form_data).then((res) => {
-      dispatch(updateInputsHistogramData(res["hist_input_binSize_binCenters"]));
-      dispatch(
-        updateOutputHistogramData(res["hist_output_binSize_binCenters"])
-      );
-      //   setHistData(res["hist_binSize_binCenters"]);
-      //   setShowResults(true);
-      //   setLoadingData(false);
-      //   setChart(res["python_plot"]);
-      //   console.log(variablesHistogramData);
+    submitData(form_data).then((res) => {
+      setCeleryTaskId(res);
     });
   };
 
   return (
     <section>
       <div className="container">
-        <div className="d-flex justify-content-end">
-          <Button onClick={handleRun} type="submit" size="lg" className="my-3">
-            Run
-          </Button>
+        <div className="row">
+          <div className="col-md-8 my-auto">
+            {showSpinner &&
+              <div>
+                <div class="spinner-border text-warning" />
+                <div class="spinner-border text-secondary" />
+                <div class="spinner-border text-success" />
+              </div>
+            }
+          </div>
+          <div className="col-md-4 text-end">
+            <Button onClick={handleSubmit} type="submit" size="lg" className="my-3">
+              Run
+            </Button>
+          </div>
         </div>
       </div>
     </section>
