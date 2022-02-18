@@ -81,9 +81,9 @@ const RunComponent = () => {
           <div className="col-md-8 my-auto">
             {showSpinner &&
               <div>
-                <div class="spinner-border text-warning" />
-                <div class="spinner-border text-secondary" />
-                <div class="spinner-border text-success" />
+                <div className="spinner-border text-warning" />
+                <div className="spinner-border text-secondary" />
+                <div className="spinner-border text-success" />
               </div>
             }
           </div>
