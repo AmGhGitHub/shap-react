@@ -8,7 +8,9 @@ import store from "./store"; //when requiring a directory, it's index.js file wi
 import { Provider } from "react-redux";
 import Equation from "./components/CorrelationAndRealtion";
 import RunComponent from "./components/RunComponent";
-import ChartResults from "./components/ChartResults";
+import ChartDistributionResults from "./components/ChartDistributionResults";
+import ChartMLResults from "./components/ChartMLResults";
+
 import Footer from "./components/Footer";
 
 function App() {
@@ -20,7 +22,8 @@ function App() {
         <VarsSpacs />
         <Equation />
         <RunComponent />
-        <ChartResults />
+        <ChartDistributionResults />
+        <ChartMLResults />
         <Footer />
       </Provider>
     </>

@@ -5,9 +5,10 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   updateInputsHistogramData,
   updateOutputHistogramData,
-} from "../store/results-slice";
+} from "../store/results-distributions-slice";
 
 const URL = "http://localhost:8000/api/";
+// const URL = "http://shapify-prod.herokuapp.com:8000/api/";
 
 const submitData = async (formData) => {
   const response = await axios({

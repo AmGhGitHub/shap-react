@@ -6,7 +6,7 @@ const ChartResults = () => {
   return (
     <section>
       <div className="container border mt-3">
-        <h2>Results</h2>
+        <h2>Distributions Results</h2>
         <div className="row my-3">
           <div className="col-md-6 text-start">
             <h4 className="text-primary">Input(s) Dist.</h4>
