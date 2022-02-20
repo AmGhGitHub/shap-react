@@ -29,7 +29,7 @@ const ChartMLResults = () => {
         <div className="row my-3">
           <div className="col-md-6 text-start">
             <h4 className="text-primary">Input(s) Dist.</h4>
-            <img src={imgSrc} alt="results"/>
+            <img src={imgSrc} alt="results" className="img-fluid" />
           </div>
           <div className="col-md-6 text-start">
             <h4 className="text-primary">Output Dist.</h4>
