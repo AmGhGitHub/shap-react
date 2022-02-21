@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import ButtonToolbar from "react-bootstrap/ButtonToolbar";
 import { useSelector } from "react-redux";
-import { get_letter } from "../util/jsUtilityFunctions";
+import { get_letter } from "../../util/jsUtilityFunctions";
 
 const VarsHistogram = () => {
   const [chartRef, ref] = useEcharts();

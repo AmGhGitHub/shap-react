@@ -30,7 +30,7 @@ const DEFAULT_TRIANGULAR_PARAMETERS = {
 const varDataSlice = createSlice({
   name: "var_dist_spec",
   initialState: {
-    sample_size_exponent: 1,
+    sample_size_exponent: 2,
     repeated_rows_pct: 0,
     var_dists: [
       {

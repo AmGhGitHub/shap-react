@@ -5,10 +5,10 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   updateInputsHistogramData,
   updateOutputHistogramData,
+  updateR2Data
 } from "../store/results-distributions-slice";
 
 const URL = "http://localhost:8000/api/";
-// const URL = "http://shapify-prod.herokuapp.com:8000/api/";
 
 const submitData = async (formData) => {
   const response = await axios({
@@ -47,7 +47,7 @@ const RunComponent = () => {
         });
         const res = response.data;
 
-        if (res.status == 'SUCCESS') {
+        if (res.status === 'SUCCESS') {
           dispatch(updateInputsHistogramData(res["hist_input_binSize_binCenters"]));
           dispatch(
             updateOutputHistogramData(res["hist_output_binSize_binCenters"])

@@ -1,21 +1,9 @@
 import { useEffect, useState } from "react";
 import useEcharts from "react-hooks-echarts";
 import echarts from "echarts";
-import Button from "react-bootstrap/Button";
-import ButtonGroup from "react-bootstrap/ButtonGroup";
-import ButtonToolbar from "react-bootstrap/ButtonToolbar";
 import { useSelector } from "react-redux";
-import { get_letter } from "../util/jsUtilityFunctions";
 
-const colors = {
-  blue: "#5470c6",
-  light_green: "#91cc75",
-  yellow: "#fac858",
-  red: "#ee6666",
-  firoozeh: "#73c0de",
-  dark_green: "#3ba272",
-  orange: "#fc8452",
-};
+
 const OutputHistogram = () => {
   const [chartRef, ref] = useEcharts();
   const [chartNumber, setChartNumber] = useState(0);
@@ -60,7 +48,7 @@ const OutputHistogram = () => {
         {
           data: hist_data[chartNumber]["bin_size"],
           type: "bar",
-          color: "#d9534f",
+          color: "#fac858",
         },
       ],
     });
