@@ -6,7 +6,8 @@ import {
   updateInputsHistogramData,
   updateOutputHistogramData,
   updateModelR2,
-  updateModelPrediction
+  updateModelPrediction,
+  updateModelShapValues
 } from "../store/results-distributions-slice";
 
 const URL = "http://localhost:8000/api/";
@@ -53,6 +54,7 @@ const RunComponent = () => {
           const model_data = res["ML and SHAP data"]
           const { train_data: r2_train_data, test_data: r2_test_data } = model_data.model_r2
           const { train_data: pred_train_data, test_data: pred_test_data } = model_data.model_prediction
+          const { feature_importance } = model_data.shap
 
           dispatch(updateInputsHistogramData(res["hist_input_binSize_binCenters"]));
           dispatch(
@@ -60,7 +62,7 @@ const RunComponent = () => {
           );
           dispatch(updateModelR2({ r2_train_data, r2_test_data }));
           dispatch(updateModelPrediction({ pred_train_data, pred_test_data }))
-
+          dispatch(updateModelShapValues(feature_importance))
           clearInterval(interval);
           setShowSpinner(false);
         };

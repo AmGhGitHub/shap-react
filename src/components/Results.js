@@ -2,7 +2,7 @@ import InputsHistogram from "./Results/HistogramInputs";
 import OutputHistogram from "./Results/HistogramOutputs";
 import ModelPredTrainData from './Results/ModelPredTrainData';
 import ModelPredTestData from './Results/ModelPredTestData';
-
+import ShapResults from "./Results/ShapResults";
 
 const ChartResults = () => {
   return (
@@ -28,6 +28,16 @@ const ChartResults = () => {
           <div className="col-md-6 text-start">
             <h4 className="text-primary">ML - Test Data</h4>
             <ModelPredTestData />
+          </div>
+        </div>
+        <div className="row my-3">
+          <div className="col-md-6 text-start">
+            <h4 className="text-primary">SHAP Analysis</h4>
+            <ShapResults />
+          </div>
+          <div className="col-md-6 text-start">
+            <h4 className="text-primary"></h4>
+            {/* <ModelPredTestData /> */}
           </div>
         </div>
       </div>

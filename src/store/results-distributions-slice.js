@@ -8,7 +8,7 @@ const resultsSlice = createSlice({
     outputHistogramData: [{ bin_size: [], bin_centers: [] }],
     modelR2: { train_data: 0.0, test_data: 0.0 },
     modelPrediction: { train_data: [], test_data: [] },
-    shapValues: []
+    shap: { feature_importance: [] }
   },
   reducers: {
     updateInputsHistogramData: (state, action) => {
@@ -32,8 +32,9 @@ const resultsSlice = createSlice({
     },
 
     updateModelShapValues: (state, action) => {
-      const { payload } = action;
-      state.shapValues = JSON.parse(payload);
+      const { data } = JSON.parse(action.payload);
+      // console.log(data)
+      state.shap.feature_importance = data;
     },
 
 

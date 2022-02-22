@@ -3,88 +3,52 @@ import useEcharts from "react-hooks-echarts";
 import echarts from "echarts";
 import { roundNumber } from "../../util/jsUtilityFunctions";
 
-const getRangeValues = (arr) => {
-    const first_element = [].concat(...arr.map(x => x[0]))
-    const second_element = [].concat(...arr.map(x => x[1]))
-
-    return {
-        minVal: Math.floor(Math.min(...first_element, ...second_element)),
-        maxVal: Math.ceil(Math.max(...first_element, ...second_element)),
-        // minVal: Math.min(...first_element, ...second_element),
-        // maxVal: Math.max(...first_element, ...second_element),
-    }
+const getFeatureImportanceParams = (arr) => {
+    const names = [].concat(...arr.map(x => x[0]));
+    const values = [].concat(...arr.map(x => x[1]));
+    return { features: names, featureImportanceValues: values }
 }
 
-const PredictionChart = ({ pred_data, r2_value, symbol_color }) => {
+const ShapValuesChart = ({ feature_importance }) => {
+
+    const { features, featureImportanceValues } = getFeatureImportanceParams(feature_importance);
+
     const [chartRef, ref] = useEcharts();
-
-    const { minVal, maxVal } = getRangeValues(pred_data)
-
-    // console.log(pred_data)
-    // console.log(r2_value)
 
     useEffect(() => {
         const chart = chartRef.current;
 
-        const markLineOpt = {
-            animation: true,
-            label: {
-                formatter: `R2 =${roundNumber(r2_value)} `,
-                align: 'right'
-            },
-            lineStyle: {
-                type: 'solid'
-            },
-            data: [
-                [
-                    {
-                        coord: [minVal, minVal],
-                        symbol: 'none'
-                    },
-                    {
-                        coord: [maxVal, maxVal],
-                        symbol: 'none'
-                    }
-                ]
-            ]
-        };
-
-
         chart.setOption({
+            title: {
+                text: 'Feature Importance',
+            },
             xAxis: {
-                min: minVal,
-                max: maxVal,
+                type: 'value',
                 axisLine: {
-                    show: false
+                    show: true
                 },
-                axisTick: {
-                    show: false
+                axisLabel: {
+                    show: true,
+                    fontSize: 18,
                 }
             },
             yAxis: {
-                min: minVal,
-                max: maxVal,
-                axisLine: {
-                    show: false
-                },
-                axisTick: {
-                    show: false
+                type: 'category',
+                data: features,
+                axisLabel: {
+                    show: true,
+                    fontSize: 18,
                 }
             },
             series: [
                 {
-                    data: pred_data,
-                    type: "scatter",
-                    markLine: markLineOpt,
-                    symbolSize: 8,
-                    itemStyle: {
-                        color: symbol_color,
-                        borderColor: '#555'
-                    },
+                    type: 'bar',
+                    data: featureImportanceValues,
+                    color: '#3ba272'
                 },
             ],
         });
-    }, [chartRef, pred_data, r2_value]);
+    }, [chartRef, featureImportanceValues, features]);
 
 
     return (
@@ -98,4 +62,4 @@ const PredictionChart = ({ pred_data, r2_value, symbol_color }) => {
 
 }
 
-export default PredictionChart;
+export default ShapValuesChart;
