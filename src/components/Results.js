@@ -1,7 +1,8 @@
-import React from "react";
-import InputsHistogram from "./Results/InputsHistogram";
-import OutputHistogram from "./Results/OutputHistogram";
-import MLModelAccuracy from "./Results/MLModelAccuracy";
+import InputsHistogram from "./Results/HistogramInputs";
+import OutputHistogram from "./Results/HistogramOutputs";
+import ModelPredTrainData from './Results/ModelPredTrainData';
+import ModelPredTestData from './Results/ModelPredTestData';
+
 
 const ChartResults = () => {
   return (
@@ -21,12 +22,12 @@ const ChartResults = () => {
         <h2>ML & SHAP Results</h2>
         <div className="row my-3">
           <div className="col-md-6 text-start">
-            <h4 className="text-primary">Model Accuracy</h4>
-            <MLModelAccuracy />
+            <h4 className="text-primary">ML - Trainind Data</h4>
+            <ModelPredTrainData />
           </div>
           <div className="col-md-6 text-start">
-            <h4 className="text-primary">SHAP Impact Factors</h4>
-            {/* <OutputHistogram /> */}
+            <h4 className="text-primary">ML - Test Data</h4>
+            <ModelPredTestData />
           </div>
         </div>
       </div>

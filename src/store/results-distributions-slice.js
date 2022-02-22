@@ -6,7 +6,9 @@ const resultsSlice = createSlice({
     // for input values a list is required to handle multiple values
     inputsHistogramData: [{ bin_size: [], bin_centers: [] }],
     outputHistogramData: [{ bin_size: [], bin_centers: [] }],
-    modelAccuracy: { r2_train_data: 0.0, r2_test_data: 0.0 }
+    modelR2: { train_data: 0.0, test_data: 0.0 },
+    modelPrediction: { train_data: [], test_data: [] },
+    shapValues: []
   },
   reducers: {
     updateInputsHistogramData: (state, action) => {
@@ -17,14 +19,27 @@ const resultsSlice = createSlice({
       const { payload } = action;
       state.outputHistogramData = payload;
     },
-    updateR2Data: (state, action) => {
+    updateModelR2: (state, action) => {
       const { r2_train_data, r2_test_data } = action.payload;
-      state.modelAccuracy.r2_train_data = r2_train_data;
-      state.modelAccuracy.r2_test_data = r2_test_data;
+      state.modelR2.train_data = r2_train_data;
+      state.modelR2.test_data = r2_test_data;
     },
+
+    updateModelPrediction: (state, action) => {
+      const { pred_train_data, pred_test_data } = action.payload;
+      state.modelPrediction.train_data = JSON.parse(pred_train_data);
+      state.modelPrediction.test_data = JSON.parse(pred_test_data);
+    },
+
+    updateModelShapValues: (state, action) => {
+      const { payload } = action;
+      state.shapValues = JSON.parse(payload);
+    },
+
+
   },
 });
 
-export const { updateInputsHistogramData, updateOutputHistogramData, updateR2Data } =
+export const { updateInputsHistogramData, updateOutputHistogramData, updateModelR2, updateModelPrediction, updateModelShapValues } =
   resultsSlice.actions;
 export default resultsSlice.reducer;

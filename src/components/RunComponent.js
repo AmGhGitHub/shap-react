@@ -5,7 +5,8 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   updateInputsHistogramData,
   updateOutputHistogramData,
-  updateR2Data
+  updateModelR2,
+  updateModelPrediction
 } from "../store/results-distributions-slice";
 
 const URL = "http://localhost:8000/api/";
@@ -49,12 +50,17 @@ const RunComponent = () => {
         // console.log(res)
 
         if (res.status === 'SUCCESS') {
-          const { train_data: r2_train_data, test_data: r2_test_data } = res["ML and SHAP data"].model_r2
+          const model_data = res["ML and SHAP data"]
+          const { train_data: r2_train_data, test_data: r2_test_data } = model_data.model_r2
+          const { train_data: pred_train_data, test_data: pred_test_data } = model_data.model_prediction
+
           dispatch(updateInputsHistogramData(res["hist_input_binSize_binCenters"]));
           dispatch(
             updateOutputHistogramData(res["hist_output_binSize_binCenters"])
           );
-          dispatch(updateR2Data({ r2_train_data, r2_test_data }))
+          dispatch(updateModelR2({ r2_train_data, r2_test_data }));
+          dispatch(updateModelPrediction({ pred_train_data, pred_test_data }))
+
           clearInterval(interval);
           setShowSpinner(false);
         };
