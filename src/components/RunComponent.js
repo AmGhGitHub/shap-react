@@ -46,12 +46,15 @@ const RunComponent = () => {
           params: { task_id: celeryTaskId }
         });
         const res = response.data;
+        // console.log(res)
 
         if (res.status === 'SUCCESS') {
+          const { train_data: r2_train_data, test_data: r2_test_data } = res["ML and SHAP data"].model_r2
           dispatch(updateInputsHistogramData(res["hist_input_binSize_binCenters"]));
           dispatch(
             updateOutputHistogramData(res["hist_output_binSize_binCenters"])
           );
+          dispatch(updateR2Data({ r2_train_data, r2_test_data }))
           clearInterval(interval);
           setShowSpinner(false);
         };

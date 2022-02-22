@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const resultsSlice = createSlice({
   name: "res",
   initialState: {
+    // for input values a list is required to handle multiple values
     inputsHistogramData: [{ bin_size: [], bin_centers: [] }],
     outputHistogramData: [{ bin_size: [], bin_centers: [] }],
     modelAccuracy: { r2_train_data: 0.0, r2_test_data: 0.0 }
@@ -17,9 +18,9 @@ const resultsSlice = createSlice({
       state.outputHistogramData = payload;
     },
     updateR2Data: (state, action) => {
-      const { payload } = action;
-      state.modelAccuracy.r2_train_data = payload["r2_train_data"];
-      state.modelAccuracy.r2_test_data = payload["r2_test_data"];
+      const { r2_train_data, r2_test_data } = action.payload;
+      state.modelAccuracy.r2_train_data = r2_train_data;
+      state.modelAccuracy.r2_test_data = r2_test_data;
     },
   },
 });
