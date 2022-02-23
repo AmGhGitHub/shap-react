@@ -1,17 +1,9 @@
 import { useEffect } from "react";
 import useEcharts from "react-hooks-echarts";
 import echarts from "echarts";
-import { roundNumber } from "../../util/jsUtilityFunctions";
 
-const getFeatureImportanceParams = (arr) => {
-    const names = [].concat(...arr.map(x => x[0]));
-    const values = [].concat(...arr.map(x => x[1]));
-    return { features: names, featureImportanceValues: values }
-}
 
-const ShapValuesChart = ({ feature_importance }) => {
-
-    const { features, featureImportanceValues } = getFeatureImportanceParams(feature_importance);
+const ShapValuesChart = ({ features, shap_values }) => {
 
     const [chartRef, ref] = useEcharts();
 
@@ -20,35 +12,45 @@ const ShapValuesChart = ({ feature_importance }) => {
 
         chart.setOption({
             title: {
-                text: 'Feature Importance',
+                text: 'Step Line'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data: ['Step Start', 'Step Middle', 'Step End']
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            toolbox: {
+                feature: {
+                    saveAsImage: {}
+                }
             },
             xAxis: {
                 type: 'value',
-                axisLine: {
-                    show: true
-                },
-                axisLabel: {
-                    show: true,
-                    fontSize: 18,
-                }
             },
             yAxis: {
                 type: 'category',
-                data: features,
-                axisLabel: {
-                    show: true,
-                    fontSize: 18,
-                }
+                data: features
             },
             series: [
                 {
-                    type: 'bar',
-                    data: featureImportanceValues,
-                    color: '#3ba272'
+                    type: 'scatter',
+                    data: [100, 120]
                 },
-            ],
+                {
+                    type: 'scatter',
+                    data: [110, 130]
+                }
+            ]
+
         });
-    }, [chartRef, featureImportanceValues, features]);
+    }, [chartRef, shap_values, features]);
 
 
     return (

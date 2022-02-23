@@ -2,7 +2,8 @@ import InputsHistogram from "./Results/HistogramInputs";
 import OutputHistogram from "./Results/HistogramOutputs";
 import ModelPredTrainData from './Results/ModelPredTrainData';
 import ModelPredTestData from './Results/ModelPredTestData';
-import ShapResults from "./Results/ShapResults";
+import ShapFeatureImportancePlot from "./Results/ShapFeatureImportanceResults";
+import ShapValuesResults from "./Results/ShapValuesResults";
 
 const ChartResults = () => {
   return (
@@ -33,11 +34,11 @@ const ChartResults = () => {
         <div className="row my-3">
           <div className="col-md-6 text-start">
             <h4 className="text-primary">SHAP Analysis</h4>
-            <ShapResults />
+            <ShapFeatureImportancePlot />
           </div>
           <div className="col-md-6 text-start">
-            <h4 className="text-primary"></h4>
-            {/* <ModelPredTestData /> */}
+            <h4 className="text-primary">.</h4>
+            <ShapValuesResults />
           </div>
         </div>
       </div>

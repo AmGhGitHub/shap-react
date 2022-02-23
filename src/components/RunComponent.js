@@ -7,6 +7,7 @@ import {
   updateOutputHistogramData,
   updateModelR2,
   updateModelPrediction,
+  updateModelShapFeatureImportance,
   updateModelShapValues
 } from "../store/results-distributions-slice";
 
@@ -48,21 +49,22 @@ const RunComponent = () => {
           params: { task_id: celeryTaskId }
         });
         const res = response.data;
-        // console.log(res)
+        console.log(res)
 
         if (res.status === 'SUCCESS') {
           const model_data = res["ML and SHAP data"]
           const { train_data: r2_train_data, test_data: r2_test_data } = model_data.model_r2
           const { train_data: pred_train_data, test_data: pred_test_data } = model_data.model_prediction
-          const { feature_importance } = model_data.shap
+          const { values: shap_values, feature_importance } = model_data.shap
 
           dispatch(updateInputsHistogramData(res["hist_input_binSize_binCenters"]));
           dispatch(
             updateOutputHistogramData(res["hist_output_binSize_binCenters"])
           );
           dispatch(updateModelR2({ r2_train_data, r2_test_data }));
-          dispatch(updateModelPrediction({ pred_train_data, pred_test_data }))
-          dispatch(updateModelShapValues(feature_importance))
+          dispatch(updateModelPrediction({ pred_train_data, pred_test_data }));
+          dispatch(updateModelShapFeatureImportance(feature_importance));
+          dispatch(updateModelShapValues(shap_values));
           clearInterval(interval);
           setShowSpinner(false);
         };

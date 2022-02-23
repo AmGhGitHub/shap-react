@@ -10,8 +10,6 @@ const getRangeValues = (arr) => {
     return {
         minVal: Math.floor(Math.min(...first_element, ...second_element)),
         maxVal: Math.ceil(Math.max(...first_element, ...second_element)),
-        // minVal: Math.min(...first_element, ...second_element),
-        // maxVal: Math.max(...first_element, ...second_element),
     }
 }
 
@@ -19,9 +17,6 @@ const PredictionChart = ({ pred_data, r2_value, symbol_color }) => {
     const [chartRef, ref] = useEcharts();
 
     const { minVal, maxVal } = getRangeValues(pred_data)
-
-    // console.log(pred_data)
-    // console.log(r2_value)
 
     useEffect(() => {
         const chart = chartRef.current;

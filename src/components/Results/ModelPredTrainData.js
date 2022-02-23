@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import PredictionChart from './../charts/PredictionChart';
+import PredictionChart from '../charts/MLPredictionChart';
 
 
 const ModelPredTrainData = () => {
