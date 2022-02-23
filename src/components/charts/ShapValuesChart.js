@@ -3,7 +3,10 @@ import useEcharts from "react-hooks-echarts";
 import echarts from "echarts";
 
 
-const ShapValuesChart = ({ features, shap_values }) => {
+const ShapValuesChart = ({ features, values }) => {
+
+    console.log(values)
+    // console.log(values[0])
 
     const [chartRef, ref] = useEcharts();
 
@@ -12,45 +15,24 @@ const ShapValuesChart = ({ features, shap_values }) => {
 
         chart.setOption({
             title: {
-                text: 'Step Line'
-            },
-            tooltip: {
-                trigger: 'axis'
-            },
-            legend: {
-                data: ['Step Start', 'Step Middle', 'Step End']
-            },
-            grid: {
-                left: '3%',
-                right: '4%',
-                bottom: '3%',
-                containLabel: true
-            },
-            toolbox: {
-                feature: {
-                    saveAsImage: {}
-                }
+                text: 'SHAP Values*'
             },
             xAxis: {
                 type: 'value',
             },
             yAxis: {
-                type: 'category',
-                data: features
+                type: 'value',
+                // data: features
             },
             series: [
                 {
-                    type: 'scatter',
-                    data: [100, 120]
-                },
-                {
-                    type: 'scatter',
-                    data: [110, 130]
+                    type: 'line',
+                    data: values[1]
                 }
             ]
 
         });
-    }, [chartRef, shap_values, features]);
+    }, [chartRef, values, features]);
 
 
     return (

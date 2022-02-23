@@ -5,22 +5,17 @@ const color_palate = ['#5470c6', '#91cc75', '#fac858', '#ee6666', '#73c0de', '#3
 
 
 const ModelPredTestData = () => {
-    const { test_data: r2_test_data } = useSelector(
-        (state) => state.varResultsReducer.modelR2
+    const r2_test_data = useSelector(
+        (state) => state.varResultsReducer.model.r2.test_data
     );
 
-    const { test_data: pred_test_data } = useSelector(
-        (state) => state.varResultsReducer.modelPrediction
+    const pred_test_data = useSelector(
+        (state) => state.varResultsReducer.model.prediction.test_data
     );
-
 
     return (
-        <>
-            <PredictionChart pred_data={pred_test_data} r2_value={r2_test_data} symbol_color={'#fac858'} />
-        </>
+        <PredictionChart pred_data={pred_test_data} r2_value={r2_test_data} symbol_color={'#fac858'} />
     );
-
-
 }
 
 export default ModelPredTestData;

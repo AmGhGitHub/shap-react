@@ -1,21 +1,22 @@
 import { useEffect } from "react";
 import useEcharts from "react-hooks-echarts";
 import echarts from "echarts";
-import { roundNumber } from "../../util/jsUtilityFunctions";
 
 const getRangeValues = (arr) => {
-    const first_element = [].concat(...arr.map(x => x[0]))
-    const second_element = [].concat(...arr.map(x => x[1]))
-
+    // console.log("arr", arr, arr.length)
+    if (arr.length === 0)
+        return {
+            minVal: 0.0,
+            maxVal: 0.0,
+        }
     return {
-        minVal: Math.floor(Math.min(...first_element, ...second_element)),
-        maxVal: Math.ceil(Math.max(...first_element, ...second_element)),
+        minVal: Math.floor(Math.min(...arr[0], ...arr[1])),
+        maxVal: Math.ceil(Math.max(...arr[0], ...arr[1])),
     }
 }
 
 const PredictionChart = ({ pred_data, r2_value, symbol_color }) => {
     const [chartRef, ref] = useEcharts();
-
     const { minVal, maxVal } = getRangeValues(pred_data)
 
     useEffect(() => {
@@ -24,7 +25,7 @@ const PredictionChart = ({ pred_data, r2_value, symbol_color }) => {
         const markLineOpt = {
             animation: true,
             label: {
-                formatter: `R2 =${roundNumber(r2_value)} `,
+                formatter: `R2 =${r2_value}`,
                 align: 'right'
             },
             lineStyle: {
@@ -79,7 +80,7 @@ const PredictionChart = ({ pred_data, r2_value, symbol_color }) => {
                 },
             ],
         });
-    }, [chartRef, pred_data, r2_value]);
+    }, [chartRef, pred_data, r2_value, symbol_color]);
 
 
     return (

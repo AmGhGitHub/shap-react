@@ -3,19 +3,16 @@ import PredictionChart from '../charts/MLPredictionChart';
 
 
 const ModelPredTrainData = () => {
-    const { train_data: r2_train_data } = useSelector(
-        (state) => state.varResultsReducer.modelR2
+    const r2_train_data = useSelector(
+        (state) => state.varResultsReducer.model.r2.train_data
     );
 
-    const { train_data: pred_train_data } = useSelector(
-        (state) => state.varResultsReducer.modelPrediction
+    const pred_train_data = useSelector(
+        (state) => state.varResultsReducer.model.prediction.train_data
     );
-
 
     return (
-        <>
-            <PredictionChart pred_data={pred_train_data} r2_value={r2_train_data} symbol_color={'#5470c6'} />
-        </>
+        <PredictionChart pred_data={pred_train_data} r2_value={r2_train_data} symbol_color={'#5470c6'} />
     );
 
 

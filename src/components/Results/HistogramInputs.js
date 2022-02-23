@@ -11,8 +11,8 @@ const VarsHistogram = () => {
   const [chartRef, ref] = useEcharts();
   const [chartNumber, setChartNumber] = useState(0);
 
-  const { inputsHistogramData: hist_data } = useSelector(
-    (state) => state.varResultsReducer
+  const hist_data = useSelector(
+    (state) => state.varResultsReducer.histogram.inputs
   );
 
   const handleClick = (i, e) => {
