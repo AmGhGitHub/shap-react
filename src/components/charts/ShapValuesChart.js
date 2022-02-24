@@ -16,17 +16,40 @@ const ShapValuesChart = ({ features, values }) => {
         const series_data = []
 
         for (let i = 0; i < values.length; i++) {
+            const _data = values[i]
+            // const colors = []
+            // for (let j = 0; j < _data.length; j++) {
+            //     colors.push(Math.random())
+            // }
             series_data.push({
                 type: 'scatter',
-                data: values[i],
-
+                data: _data,
+                // color: colors
             })
         }
+
+        console.log(series_data)
 
         chart.setOption({
             title: {
                 text: 'SHAP Values'
             },
+            visualMap: [
+                {
+                    type: 'continuous',
+                    dimension: 2,
+                    orient: 'vertical',
+                    right: 0,
+                    top: 'middle',
+                    min: -1,
+                    max: 1,
+                    text: ['High', 'Low'],
+                    calculable: true,
+                    inRange: {
+                        color: ['#008bfb', '#ff0e51']
+                    }
+                }
+            ],
             xAxis: {
                 type: 'value',
             },
@@ -34,10 +57,11 @@ const ShapValuesChart = ({ features, values }) => {
                 type: 'value',
                 axisLabel: {
                     formatter: function (value, index) {
-                        return value < 0 ? "" : get_letter(value - 1);
+                        return get_letter(value - 1);
 
                     },
                     fontSize: 18,
+                    showMinLabel: false,
                 },
                 min: 0,
                 minInterval: 1,
