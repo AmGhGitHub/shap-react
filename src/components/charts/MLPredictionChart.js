@@ -2,22 +2,8 @@ import { useEffect } from "react";
 import useEcharts from "react-hooks-echarts";
 import echarts from "echarts";
 
-const getRangeValues = (arr) => {
-    // console.log("arr", arr, arr.length)
-    if (arr.length === 0)
-        return {
-            minVal: 0.0,
-            maxVal: 0.0,
-        }
-    return {
-        minVal: Math.floor(Math.min(...arr[0], ...arr[1])),
-        maxVal: Math.ceil(Math.max(...arr[0], ...arr[1])),
-    }
-}
-
-const PredictionChart = ({ pred_data, r2_value, symbol_color }) => {
+const PredictionChart = ({ pred_data, r2_value, symbol_color, minVal = 0.0, maxVal = 0.0 }) => {
     const [chartRef, ref] = useEcharts();
-    const { minVal, maxVal } = getRangeValues(pred_data)
 
     useEffect(() => {
         const chart = chartRef.current;
@@ -44,7 +30,6 @@ const PredictionChart = ({ pred_data, r2_value, symbol_color }) => {
                 ]
             ]
         };
-
 
         chart.setOption({
             xAxis: {
