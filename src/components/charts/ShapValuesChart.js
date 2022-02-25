@@ -52,6 +52,10 @@ const ShapValuesChart = ({ features, values }) => {
             ],
             xAxis: {
                 type: 'value',
+                axisLabel: {
+                    show: true,
+                    fontSize: 18,
+                }
             },
             yAxis: {
                 type: 'value',
@@ -67,6 +71,15 @@ const ShapValuesChart = ({ features, values }) => {
                 minInterval: 1,
                 maxInterval: 1
             },
+            // series: [{
+            //     type: 'scatter',
+            //     data: [
+
+            //         [1, 1, -1],
+            //         [0.5, 1, -.8],
+            //         [-2, 1, 1],
+            //     ]
+            // }]
             series: series_data
         });
     }, [chartRef, values, features]);

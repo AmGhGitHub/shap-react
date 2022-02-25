@@ -37,7 +37,7 @@ const ChartResults = () => {
             <ShapFeatureImportancePlot />
           </div>
           <div className="col-md-6 text-start">
-            <h4 className="text-primary">.</h4>
+            <h4 className="text-primary"><span style={{ color: 'white' }}>.</span></h4>
             <ShapValuesResults />
           </div>
         </div>
