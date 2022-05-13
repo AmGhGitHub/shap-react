@@ -11,7 +11,10 @@ const resultsSlice = createSlice({
       r2: { train_data: null, test_data: null },
       prediction: { train_data: [], test_data: [] }
     },
-    shap: { features: [], sample_values: [], feature_importance: [] }
+    shap: {
+      features: [], sample_values: [], feature_importance: [],
+      features_values_test: [], features_shap_values_test: []
+    }
   },
   reducers: {
     updateInputsHistogramData: (state, action) => {
@@ -39,12 +42,14 @@ const resultsSlice = createSlice({
 
 
     updateShap: (state, action) => {
-      const { features, sample_values, feature_importance } = action.payload;
+      const { features, sample_values, feature_importance, features_values_test, features_shap_values_test } = action.payload;
       state.shap.features = features;
       state.shap.sample_values = sample_values;
       state.shap.feature_importance = feature_importance;
+      state.shap.features_values_test = features_values_test;
+      state.shap.features_shap_values_test = features_shap_values_test;
+      // console.log(state.shap)
     },
-
   },
 });
 

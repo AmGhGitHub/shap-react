@@ -6,9 +6,6 @@ const ShapValuesResults = () => {
     const { features, sample_values } = useSelector(
         (state) => state.varResultsReducer.shap
     );
-
-
-
     return (
         <ShapValuesChart features={features} values={sample_values} />
     );

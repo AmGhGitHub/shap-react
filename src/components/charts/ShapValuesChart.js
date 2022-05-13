@@ -5,30 +5,20 @@ import { get_letter } from "../../util/jsUtilityFunctions";
 
 
 const ShapValuesChart = ({ features, values }) => {
-
-
-
     const [chartRef, ref] = useEcharts();
 
     useEffect(() => {
         const chart = chartRef.current;
-
         const series_data = []
 
         for (let i = 0; i < values.length; i++) {
             const _data = values[i]
-            // const colors = []
-            // for (let j = 0; j < _data.length; j++) {
-            //     colors.push(Math.random())
-            // }
+
             series_data.push({
                 type: 'scatter',
-                data: _data,
-                // color: colors
+                data: _data
             })
         }
-
-        console.log(series_data)
 
         chart.setOption({
             title: {
@@ -71,15 +61,7 @@ const ShapValuesChart = ({ features, values }) => {
                 minInterval: 1,
                 maxInterval: 1
             },
-            // series: [{
-            //     type: 'scatter',
-            //     data: [
 
-            //         [1, 1, -1],
-            //         [0.5, 1, -.8],
-            //         [-2, 1, 1],
-            //     ]
-            // }]
             series: series_data
         });
     }, [chartRef, values, features]);

@@ -4,6 +4,7 @@ import ModelPredTrainData from './Results/ModelPredTrainData';
 import ModelPredTestData from './Results/ModelPredTestData';
 import ShapFeatureImportancePlot from "./Results/ShapFeatureImportanceResults";
 import ShapValuesResults from "./Results/ShapValuesResults";
+import ShapValuesResultsExtra from "./Results/ShapValuesResultsExtra";
 
 const ChartResults = () => {
   return (
@@ -39,6 +40,15 @@ const ChartResults = () => {
           <div className="col-md-6 text-start">
             <h4 className="text-primary"><span style={{ color: 'white' }}>.</span></h4>
             <ShapValuesResults />
+          </div>
+        </div>
+
+        <div className="row my-3">
+          <div className="col-md-6 text-start">
+            <ShapValuesResultsExtra />
+          </div>
+          <div className="col-md-6 text-start">
+
           </div>
         </div>
       </div>

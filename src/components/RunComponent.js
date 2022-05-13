@@ -48,7 +48,7 @@ const RunComponent = () => {
           params: { task_id: celeryTaskId }
         });
         const res = response.data;
-        console.log(res)
+        //console.log(res)
 
         if (res.status === 'SUCCESS') {
           const { inputs: hist_inputs, output: hist_output } = res["Histogram data"]
