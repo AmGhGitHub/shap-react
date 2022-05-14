@@ -23,9 +23,10 @@ const get_min = (arr, index) => {
 }
 
 const ShapResultsChart = ({ features, features_values, features_shap_values }) => {
+    console.log(features)
 
-    const min_value = get_min(features_values, 1)
-    const max_value = get_max(features_values, 1)
+    const min_value = Math.min(...features_values)
+    const max_value = Math.max(...features_values)
 
     const [chartRef, ref] = useEcharts();
     useEffect(() => {
@@ -34,7 +35,7 @@ const ShapResultsChart = ({ features, features_values, features_shap_values }) =
         const series_data = []
 
         for (let i = 0; i < features_values.length; i++) {
-            const _data = [features_values[i][0], features_shap_values[i][0], features_values[i][1]]
+            const _data = [features_values[i], features_shap_values[i], features_values[i]]
             series_data.push(_data)
         }
 
@@ -51,7 +52,7 @@ const ShapResultsChart = ({ features, features_values, features_shap_values }) =
                     right: -10,
                     min: min_value,
                     max: max_value,
-                    text: [features[1]],
+                    text: features,
                     textGap: 20,
                     textStyle: {
                         fontSize: 20,
@@ -64,7 +65,7 @@ const ShapResultsChart = ({ features, features_values, features_shap_values }) =
                 }
             ],
             xAxis: {
-                name: 'u',
+                name: features,
                 nameLocation: 'middle',
                 nameGap: 20,
                 nameTextStyle: {
@@ -73,7 +74,7 @@ const ShapResultsChart = ({ features, features_values, features_shap_values }) =
                 },
             },
             yAxis: {
-                name: 'u Shap value',
+                name: features + ' Shap value',
                 nameLocation: 'middle',
                 nameGap: 20,
                 nameTextStyle: {
