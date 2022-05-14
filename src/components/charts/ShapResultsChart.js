@@ -1,32 +1,13 @@
 import { useEffect } from "react";
 import useEcharts from "react-hooks-echarts";
 import echarts from "echarts";
-import { get_letter } from "../../util/jsUtilityFunctions";
 
 
-const get_max = (arr, index) => {
-    if (arr === undefined || arr.length === 0) {
-        return 0
-    }
-    return arr.reduce((max, arr) => {
-        return max >= arr[index] ? max : arr[index];
-    }, -Infinity);
-}
+const ShapResultsChart = ({ features, features_values, features_shap_values, function_values }) => {
+    //console.log(features)
 
-const get_min = (arr, index) => {
-    if (arr === undefined || arr.length === 0) {
-        return 0
-    }
-    return arr.reduce((min, arr) => {
-        return min <= arr[index] ? min : arr[index];
-    }, Infinity);
-}
-
-const ShapResultsChart = ({ features, features_values, features_shap_values }) => {
-    console.log(features)
-
-    const min_value = Math.min(...features_values)
-    const max_value = Math.max(...features_values)
+    const min_value = Math.min(...function_values)
+    const max_value = Math.max(...function_values)
 
     const [chartRef, ref] = useEcharts();
     useEffect(() => {
@@ -35,7 +16,7 @@ const ShapResultsChart = ({ features, features_values, features_shap_values }) =
         const series_data = []
 
         for (let i = 0; i < features_values.length; i++) {
-            const _data = [features_values[i], features_shap_values[i], features_values[i]]
+            const _data = [features_values[i], features_shap_values[i], function_values[i]]
             series_data.push(_data)
         }
 
@@ -52,7 +33,7 @@ const ShapResultsChart = ({ features, features_values, features_shap_values }) =
                     right: -10,
                     min: min_value,
                     max: max_value,
-                    text: features,
+                    text: "f",
                     textGap: 20,
                     textStyle: {
                         fontSize: 20,
@@ -74,8 +55,9 @@ const ShapResultsChart = ({ features, features_values, features_shap_values }) =
                 },
             },
             yAxis: {
-                name: features + ' Shap value',
+                name: 'SHAP Value',
                 nameLocation: 'middle',
+                right: -50,
                 nameGap: 20,
                 nameTextStyle: {
                     fontSize: 20,
@@ -88,7 +70,7 @@ const ShapResultsChart = ({ features, features_values, features_shap_values }) =
                 type: 'scatter'
             }]
         });
-    }, [chartRef, features_shap_values, features]);
+    }, [chartRef, features_shap_values, features, function_values]);
 
     return (
         <div

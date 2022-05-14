@@ -42,13 +42,13 @@ const resultsSlice = createSlice({
 
 
     updateShap: (state, action) => {
-      const { features, sample_values, feature_importance, features_values_test, features_shap_values_test } = action.payload;
+      const { features, sample_values, feature_importance, features_values_test, features_shap_values_test, function_values_test } = action.payload;
       state.shap.features = features;
       state.shap.sample_values = sample_values;
       state.shap.feature_importance = feature_importance;
       state.shap.features_values_test = features_values_test;
       state.shap.features_shap_values_test = features_shap_values_test;
-      // console.log(state.shap)
+      state.shap.function_values_test = function_values_test;
     },
   },
 });

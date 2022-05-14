@@ -9,7 +9,7 @@ import ShapValuesResultsExtra from "./Results/ShapValuesResultsExtra";
 import ShapResultsChart from "./charts/ShapResultsChart";
 
 const ChartResults = () => {
-  const { features, features_values_test, features_shap_values_test } = useSelector(
+  const { features, features_values_test, features_shap_values_test, function_values_test } = useSelector(
     (state) => state.varResultsReducer.shap
   );
   const arrayColumn = (arr, n) => arr.map(x => x[n]);
@@ -19,6 +19,7 @@ const ChartResults = () => {
   const n_single_colum = features.length % 2;
   const rows = [...Array(n_row).keys()]
   const cols = [...Array(n_single_colum).keys()]
+
   let j = -1;
 
   return (
@@ -46,6 +47,7 @@ const ChartResults = () => {
             <ModelPredTestData />
           </div>
         </div>
+        <h4 className="text-primary">SHAP Analysis</h4>
         {/* <div className="row my-3">
           <div className="col-md-6 text-start">
             <h4 className="text-primary">SHAP Analysis</h4>
@@ -59,22 +61,26 @@ const ChartResults = () => {
         {
           rows.map((m, i) => {
             j = j + 1;
-            return (<div className="row my-3" key={i}>
-              <div className="col-md-6 text-start">
-                <ShapResultsChart
-                  features={features[i + j]}
-                  features_values={arrayColumn(features_values_test, i + j)}
-                  features_shap_values={arrayColumn(features_shap_values_test, i + j)}
-                />
-              </div>
-              <div className="col-md-6 text-start">
-                <ShapResultsChart
-                  features={features[i + j + 1]}
-                  features_values={arrayColumn(features_values_test, i + j + 1)}
-                  features_shap_values={arrayColumn(features_shap_values_test, i + j + 1)}
-                />
-              </div>
-            </div>)
+            return (
+
+              <div className="row my-3" key={i}>
+                <div className="col-md-6 text-start">
+                  <ShapResultsChart
+                    features={features[i + j]}
+                    features_values={arrayColumn(features_values_test, i + j)}
+                    features_shap_values={arrayColumn(features_shap_values_test, i + j)}
+                    function_values={function_values_test}
+                  />
+                </div>
+                <div className="col-md-6 text-start">
+                  <ShapResultsChart
+                    features={features[i + j + 1]}
+                    features_values={arrayColumn(features_values_test, i + j + 1)}
+                    features_shap_values={arrayColumn(features_shap_values_test, i + j + 1)}
+                    function_values={function_values_test}
+                  />
+                </div>
+              </div>)
           })
         }
         {cols.map(m => {
@@ -82,8 +88,9 @@ const ChartResults = () => {
             <div className="col-md-6 text-start">
               <ShapResultsChart
                 features={features[n_row * 2]}
-                features_values={features_values_test[n_row * 2]}
-                features_shap_values={features_shap_values_test[n_row * 2]}
+                features_values={arrayColumn(features_values_test, n_row * 2)}
+                features_shap_values={arrayColumn(features_shap_values_test, n_row * 2)}
+                function_values={function_values_test}
               />
             </div>
             <div className="col-md-6 text-start">
