@@ -6,15 +6,16 @@ import ModelPredTestData from './Results/ModelPredTestData';
 import ShapFeatureImportancePlot from "./Results/ShapFeatureImportanceResults";
 import ShapValuesResults from "./Results/ShapValuesResults";
 import ShapValuesResultsExtra from "./Results/ShapValuesResultsExtra";
+import ShapResultsChart from "./charts/ShapResultsChart";
 
 const ChartResults = () => {
   const { features, features_values_test, features_shap_values_test } = useSelector(
     (state) => state.varResultsReducer.shap
   );
-  // const m = Math.floor(features.length / 2) + features.length % 2;
-  const m = features.length;
-  const vals = new Array(m).fill(0)
-
+  const n_row = Math.floor(features.length / 2);
+  const n_single_colum = features.length % 2;
+  const rows = [...Array(n_row).keys()]
+  const cols = [...Array(n_single_colum).keys()]
 
   return (
     <section>
@@ -51,14 +52,37 @@ const ChartResults = () => {
             <ShapValuesResults />
           </div>
         </div> */}
-        {vals.map((m, i) => {
+        {rows.map((m, i) => {
 
           return (<div className="row my-3" key={i}>
             <div className="col-md-6 text-start">
-              <ShapValuesResultsExtra />
+              <ShapResultsChart
+                features={features[i]}
+                features_values={features_values_test[i]}
+                features_shap_values={features_shap_values_test[i]}
+              />
             </div>
             <div className="col-md-6 text-start">
-              <ShapValuesResultsExtra />
+              <ShapResultsChart
+                features={features[i+1]}
+                features_values={features_values_test[i+1]}
+                features_shap_values={features_shap_values_test[i+1]}
+              />
+            </div>
+          </div>)
+        })
+        }
+        {cols.map((m, i) => {
+          return (<div className="row my-3" key={i}>
+            <div className="col-md-6 text-start">
+              <ShapResultsChart
+                features={features[n_row*2+n_single_colum]}
+                features_values={features_values_test[i]}
+                features_shap_values={features_shap_values_test[i]}
+              />
+            </div>
+            <div className="col-md-6 text-start">
+              {/* <ShapValuesResultsExtra /> */}
             </div>
           </div>)
         })
