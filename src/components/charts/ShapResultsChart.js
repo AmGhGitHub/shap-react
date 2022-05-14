@@ -40,9 +40,9 @@ const ShapResultsChart = ({ features, features_values, features_shap_values }) =
         }
 
         chart.setOption({
-            title: {
-                text: 'SHAP Values'
-            },
+            // title: {
+            //     text: 'SHAP Values'
+            // },
             visualMap: [
                 {
                     type: 'continuous',
