@@ -5,12 +5,18 @@ import { get_letter } from "../../util/jsUtilityFunctions";
 
 
 const get_max = (arr, index) => {
+    if (arr === undefined || arr.length === 0) {
+        return 0
+    }
     return arr.reduce((max, arr) => {
         return max >= arr[index] ? max : arr[index];
     }, -Infinity);
 }
 
 const get_min = (arr, index) => {
+    if (arr === undefined || arr.length === 0) {
+        return 0
+    }
     return arr.reduce((min, arr) => {
         return min <= arr[index] ? min : arr[index];
     }, Infinity);

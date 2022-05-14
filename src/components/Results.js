@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import InputsHistogram from "./Results/HistogramInputs";
 import OutputHistogram from "./Results/HistogramOutputs";
 import ModelPredTrainData from './Results/ModelPredTrainData';
@@ -7,6 +8,14 @@ import ShapValuesResults from "./Results/ShapValuesResults";
 import ShapValuesResultsExtra from "./Results/ShapValuesResultsExtra";
 
 const ChartResults = () => {
+  const { features, features_values_test, features_shap_values_test } = useSelector(
+    (state) => state.varResultsReducer.shap
+  );
+  // const m = Math.floor(features.length / 2) + features.length % 2;
+  const m = features.length;
+  const vals = new Array(m).fill(0)
+
+
   return (
     <section>
       <div className="container border mt-3">
@@ -32,7 +41,7 @@ const ChartResults = () => {
             <ModelPredTestData />
           </div>
         </div>
-        <div className="row my-3">
+        {/* <div className="row my-3">
           <div className="col-md-6 text-start">
             <h4 className="text-primary">SHAP Analysis</h4>
             <ShapFeatureImportancePlot />
@@ -41,16 +50,19 @@ const ChartResults = () => {
             <h4 className="text-primary"><span style={{ color: 'white' }}>.</span></h4>
             <ShapValuesResults />
           </div>
-        </div>
+        </div> */}
+        {vals.map((m, i) => {
 
-        <div className="row my-3">
-          <div className="col-md-6 text-start">
-            <ShapValuesResultsExtra />
-          </div>
-          <div className="col-md-6 text-start">
-
-          </div>
-        </div>
+          return (<div className="row my-3" key={i}>
+            <div className="col-md-6 text-start">
+              <ShapValuesResultsExtra />
+            </div>
+            <div className="col-md-6 text-start">
+              <ShapValuesResultsExtra />
+            </div>
+          </div>)
+        })
+        }
       </div>
     </section>
   );
